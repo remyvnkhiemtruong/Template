@@ -1,0 +1,20 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_all_matchings",
+        "body": [
+            "// Returns the list of positions of pattern in text",
+            "// O(n + m)",
+            "// Requres z_function",
+            "template<class Char_Type>",
+            "vector<int> find_all_matchings(const vector<Char_Type> &text, vector<Char_Type> pattern){",
+            "\tint n = (int)text.size(), m = (int)pattern.size();",
+            "\tpattern.insert(pattern.end(), text.begin(), text.end());",
+            "\tauto p = z_function(pattern);",
+            "\tvector<int> pos;",
+            "\tfor(auto i = m; i < n + m; ++ i) if(p[i] >= m) pos.push_back(i - m);",
+            "\treturn pos;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

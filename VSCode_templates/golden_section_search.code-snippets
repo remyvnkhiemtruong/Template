@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "golden_section_search",
+        "body": [
+            "// Assumes there exists p, q in [low, high] such that",
+            "// f is decreasing in [low, p],",
+            "// f is constant in [p, q]",
+            "// f is increasing in [q, high]",
+            "// Returns a point in [p , q]",
+            "// O(repeat) f() calls",
+            "template<class Compare = less<>>",
+            "double golden_section_search(double low, double high, int repeat, auto f, Compare cmp = less<>()){",
+            "\tassert(low < high);",
+            "\tdouble phi = (sqrt(5) - 1) / 2, mid1 = high - (high - low) * phi, mid2 = low + (high - low) * phi;",
+            "\tauto val1 = f(mid1), val2 = f(mid2);",
+            "\twhile(repeat --){",
+            "\t\tif(cmp(val1, val2)){",
+            "\t\t\thigh = mid2, mid2 = mid1, val2 = val1;",
+            "\t\t\tmid1 = high - (high - low) * phi, val1 = f(mid1);",
+            "\t\t}",
+            "\t\telse{",
+            "\t\t\tlow = mid1, mid1 = mid2, val1 = val2;",
+            "\t\t\tmid2 = low + (high - low) * phi, val2 = f(mid2);",
+            "\t\t}",
+            "\t}",
+            "\treturn (low + high) / 2;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

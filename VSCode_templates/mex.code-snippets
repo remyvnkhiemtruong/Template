@@ -1,0 +1,17 @@
+{
+    "tranxuanbach": {
+        "prefix": "mex",
+        "body": [
+            "int mex(const vector<int> &a){",
+            "\tint n = (int)a.size();",
+            "\tstatic vector<int> found;",
+            "\tfound.assign(n + 1, false);",
+            "\tfor(auto x: a) if(x <= n) found[x] = true;",
+            "\tint res = 0;",
+            "\twhile(found[res]) ++ res;",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

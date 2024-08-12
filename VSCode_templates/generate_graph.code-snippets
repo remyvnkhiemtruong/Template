@@ -1,0 +1,13 @@
+{
+    "tranxuanbach": {
+        "prefix": "hello",
+        "body": [
+            "vector<array<int, 2>> generate_graph(auto &&rng, int n, int m){",
+            "\tvector<array<int, 2>> res(m);",
+            "\tfor(auto &[u, v]: res) u = rng() % n, v = rng() % n;",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

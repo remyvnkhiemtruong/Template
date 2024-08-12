@@ -1,0 +1,14 @@
+{
+    "tranxuanbach": {
+        "prefix": "minimum_period",
+        "body": [
+            "// Returns minimum 1<=p<=n such that s[i] == s[i+p] for all 0<=i<n-p",
+            "// Requires prefix_function",
+            "template<class Char_Type>",
+            "int minimum_period(const vector<Char_Type> &s){",
+            "\treturn (int)s.size() - prefix_function<Char_Type, false>(s).back();",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

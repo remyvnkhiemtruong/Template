@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "count_inversions",
+        "body": [
+            "// O(n * log(n))",
+            "template<class T, class Compare = less<>>",
+            "long long count_inversions(const vector<T> &a, bool count_equal = false, Compare cmp = less<>()){",
+            "\tint n = (int)a.size();",
+            "\tvector<T> cmpr = a;",
+            "\tsort(cmpr.begin(), cmpr.end(), cmp);",
+            "\tvector<int> sum(n);",
+            "\tlong long res = 0;",
+            "\tfor(auto i = 0; i < n; ++ i){",
+            "\t\tint p = lower_bound(cmpr.begin(), cmpr.end(), a[i], cmp) - cmpr.begin();",
+            "\t\tres += i;",
+            "\t\tfor(auto r = p + !count_equal; r > 0; r -= r & -r) res -= sum[r - 1];",
+            "\t\tfor(++ p; p <= n; p += p & -p) ++ sum[p - 1];",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

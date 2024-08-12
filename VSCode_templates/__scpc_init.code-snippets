@@ -1,0 +1,41 @@
+{
+    "tranxuanbach": {
+        "prefix": "scpc_initialize",
+        "body": [
+            "#include <bits/stdc++.h>",
+            "// #include <x86intrin.h>",
+            "using namespace std;",
+            "using namespace numbers;",
+            "",
+            "",
+            "",
+            "int main(){",
+            "\tcin.tie(0)->sync_with_stdio(0);",
+            "\tcin.exceptions(ios::badbit | ios::failbit);",
+            "\tauto __solve_tc = [&](auto __tc_num)->int{",
+            "\t\t$0",
+            "\t\treturn 0;",
+            "\t};",
+            "\tint __tc_cnt;",
+            "\tcin >> __tc_cnt;",
+            "\tfor(auto __tc_num = 0; __tc_num < __tc_cnt; ++ __tc_num){",
+            "\t\tcout << \"Case #\" << __tc_num + 1 << \"\\n\";",
+            "\t\t__solve_tc(__tc_num);",
+            "\t\tcout.flush();",
+            "\t}",
+            "\treturn 0;",
+            "}",
+            "",
+            "/*",
+            "",
+            "*/",
+            "",
+            "////////////////////////////////////////////////////////////////////////////////////////",
+            "//                                                                                    //",
+            "//                                   Coded by Aeren                                   //",
+            "//                                                                                    //",
+            "////////////////////////////////////////////////////////////////////////////////////////"
+        ],
+        "description": "tranxuanbach"
+    }
+}

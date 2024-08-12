@@ -1,0 +1,16 @@
+{
+    "tranxuanbach": {
+        "prefix": "raw_read_tree",
+        "body": [
+            "int n;",
+            "cin >> n;",
+            "vector<vector<int>> adj(n);",
+            "for(auto i = 0; i < n - 1; ++ i){",
+            "\tint u, v;",
+            "\tcin >> u >> v, -- u, -- v;",
+            "\tadj[u].push_back(v), adj[v].push_back(u);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

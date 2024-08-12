@@ -1,0 +1,28 @@
+{
+    "tranxuanbach": {
+        "prefix": "logarithm_set_power_series",
+        "body": [
+            "// Implementation of https://codeforces.com/blog/entry/92183",
+            "// O(n * log(n)^2)",
+            "// Requires convolute_subset",
+            "template<class T, int SZ = 20>",
+            "vector<T> logarithm_set_power_series(const vector<T> &p){",
+            "\tint n = (int)p.size();",
+            "\tassert(__builtin_popcount(n) == 1 && p[0] == 1);",
+            "\tint w = __lg(n);",
+            "\tvector<vector<T>> res(w + 1, {0});",
+            "\tT fact = 1;",
+            "\tfor(auto bit = 1; bit <= w; ++ bit) res[bit][0] = fact, fact *= -bit;",
+            "\tfor(auto bit = 0; bit < w; ++ bit){",
+            "\t\tfor(auto i = 0; i < w - bit; ++ i){",
+            "\t\t\tauto shift = convolute_subset<T, SZ>(res[i + 1], vector<T>(p.begin() + (1 << bit), p.begin() + (1 << bit + 1)));",
+            "\t\t\tres[i].insert(res[i].end(), shift.begin(), shift.end());",
+            "\t\t}",
+            "\t\tres.pop_back();",
+            "\t}",
+            "\treturn res[0];",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

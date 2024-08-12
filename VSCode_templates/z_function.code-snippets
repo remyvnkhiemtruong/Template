@@ -1,0 +1,23 @@
+{
+    "tranxuanbach": {
+        "prefix": "z_function",
+        "body": [
+            "// z[i]: largest prefix(suffix if Reverse) starting(ending if Reverse) at i that is also a proper prefix(suffix if Reverse)",
+            "// O(n)",
+            "template<class Char_Type, bool Reverse = false>",
+            "vector<int> z_function(vector<Char_Type> s){",
+            "\tif(Reverse) reverse(s.begin(), s.end());",
+            "\tint n = (int)s.size();",
+            "\tvector<int> z(n);",
+            "\tfor(auto i = 1, j = 0; i < n; ++ i){",
+            "\t\tif(i < j + z[j]) z[i] = min(j + z[j] - i, z[i - j]);",
+            "\t\twhile(i + z[i] < n && s[z[i]] == s[i + z[i]]) ++ z[i];",
+            "\t\tif(i + z[i] > j + z[j]) j = i;",
+            "\t}",
+            "\tif(Reverse) reverse(z.begin(), z.end());",
+            "\treturn z;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "tranxuanbach": {
+        "prefix": "line_to_line_distance",
+        "body": [
+            "// Requires point, line, and line_intersection",
+            "template<class T>",
+            "double distance_between_rays(const line<T> &L, const line<T> &M){",
+            "\tif(L.parallel_to(M)){",
+            "\t\tif(L.d * M.d >= 0 || (M.p - L.p) * M.d <= 0) return distance_to_line(L.p, M);",
+            "\t\telse return distance(L.p, M.p);",
+            "\t}",
+            "\telse{",
+            "\t\tif(intersect_no_parallel_overlap<1, 0, 1, 0, T>(L, M).first) return 0;",
+            "\t\telse return min(distance_to_ray(L.p, M), distance_to_ray(M.p, L));",
+            "\t}",
+            "}",
+            "template<class T>",
+            "double distance_between_segments(const line<T> &L, const line<T> &M){",
+            "\tif(intersect_closed_segments(L, M).first) return 0;",
+            "\treturn min({distance_to_segment(L.p, M), distance_to_segment(L.q(), M), distance_to_segment(M.p, L), distance_to_segment(M.q(), L)});",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

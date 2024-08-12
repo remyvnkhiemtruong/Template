@@ -1,0 +1,36 @@
+{
+    "tranxuanbach": {
+        "prefix": "lambda_arithmetic_monoid_action",
+        "body": [
+            "// 0*a[l]+1*a[l+1]+...+(r-l-1)*a[r-1], sum, len, min_index",
+            "using T = array<long long, 4>;",
+            "auto TT = [&](const T &x, const T &y)->T{",
+            "\treturn {",
+            "\t\tx[0] + y[0] + y[1] * x[2],",
+            "\t\tx[1] + y[1],",
+            "\t\tx[2] + y[2],",
+            "\t\t~x[3] ? x[3] : y[3]",
+            "\t};",
+            "};",
+            "T T_id{0, 0, 0, -1};",
+            "// a[i] += [0] + [1] * i",
+            "using U = array<long long, 2>;",
+            "auto UU = [&](const U &f, const U &g)->U{",
+            "\treturn {",
+            "\t\tf[0] + g[0],",
+            "\t\tf[1] + g[1]",
+            "\t};",
+            "};",
+            "U U_id{};",
+            "auto UT = [&](const U &f, const T &x)->T{",
+            "\treturn {",
+            "\t\tx[0] + f[0] * x[2] * (x[2] - 1) / 2 + f[1] * ((x[3] + x[2] - 1) * (x[3] + x[2]) * (2 * x[3] + 2 * x[2] - 1) / 6 - (x[3] - 1) * x[3] * (2 * x[3] - 1) / 6 - x[3] * (2 * x[3] + x[2] - 1) * x[2] / 2),",
+            "\t\tx[1] + f[0] * x[2] + f[1] * (2 * x[3] + x[2] - 1) * x[2] / 2,",
+            "\t\tx[2],",
+            "\t\tx[3]",
+            "\t};",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

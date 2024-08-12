@@ -1,0 +1,42 @@
+{
+    "tranxuanbach": {
+        "prefix": "count_common_substrings",
+        "body": [
+            "// Returns the number of distinct non-empty common substrings",
+            "// O(m)",
+            "// Requires suffix_automaton",
+            "template<class Char_Type, class Adjacency_Type>",
+            "long long count_common_substrings(const suffix_automaton<Char_Type, Adjacency_Type> &aut_s, const vector<Char_Type> &t, const suffix_automaton<Char_Type, Adjacency_Type> &aut_t){",
+            "\tint m = (int)aut_t.size();",
+            "\tstatic vector<int> req;",
+            "\treq.assign(m, 0);",
+            "\tint u = 0, v = 0, len = 0;",
+            "\tfor(auto c: t){",
+            "\t\twhile(u && !aut_s.next[u][c]){",
+            "\t\t\tu = aut_s.link[u];",
+            "\t\t\tlen = aut_s.len[u];",
+            "\t\t\twhile(v && aut_t.max_len[aut_t.link[v]] >= len) v = aut_t.link[v];",
+            "\t\t}",
+            "\t\tif(aut_s.next[u][c]){",
+            "\t\t\tu = aut_s.next[u][c];",
+            "\t\t\t++ len;",
+            "\t\t\tv = aut_t.next[v][c];",
+            "\t\t}",
+            "\t\treq[v] = max(req[v], len);",
+            "\t}",
+            "\tlong long res = 0;",
+            "\tfor(auto t = m - 1; t > 0; -- t){",
+            "\t\tint u = aut_t.order[t];",
+            "\t\tif(req[u]){",
+            "\t\t\tint v = aut_t.link[u];",
+            "\t\t\tres += req[u] - aut_t.max_len[v];",
+            "\t\t\treq[v] = max(req[v], aut_t.max_len[v]);",
+            "\t\t}",
+            "\t}",
+            "\treq.clear();",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

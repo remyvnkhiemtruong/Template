@@ -1,0 +1,25 @@
+{
+    "tranxuanbach": {
+        "prefix": "sparse_determinant",
+        "body": [
+            "// Calculate the determinant of the sparse matrix",
+            "// Reads dimension n and its elements in form tuple{row, column, value}",
+            "// T must be of modular type",
+            "// O(n * (n + |a|) + |a| * log(mod))",
+            "// Requires linear_recurrence_solver, and sparse_minimal_polynomial",
+            "template<class T> // calculate the determinant of the sparse matrix",
+            "T sparse_determinant(auto &&rng, int n, vector<tuple<int, int, T>> a){",
+            "\tvector<T> D(n);",
+            "\tT det_D = 1;",
+            "\tfor(auto &x: D){",
+            "\t\tdo x = rng(); while(!x);",
+            "\t\tdet_D *= x;",
+            "\t}",
+            "\tfor(auto &[i, j, val]: a) val *= D[i];",
+            "\tT det = sparse_minimal_polynomial(rng, n, a)[0] * (n & 1 ? -1 : 1);",
+            "\treturn det / det_D;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_a_furthest_pair_in_convex_polygon",
+        "body": [
+            "// a must be a convex polygon (given in CCW)",
+            "// Returns a tuple (squared distance, first point index, second point index)",
+            "// O(n)",
+            "// Requires point",
+            "template<class T>",
+            "tuple<T, int, int> find_a_furthest_pair_in_convex_polygon(const vector<point<T>> &a){",
+            "\tint n = (int)a.size();",
+            "\ttuple<T, int, int> res{numeric_limits<T>::min(), -1, -1};",
+            "\tfor(auto i = 0, j = (i + 1) % n; i < n; ++ i){",
+            "\t\twhile((a[(i + 1) % n] - a[i] ^ a[(j + 1) % n] - a[j]) > 0) j = (j + 1) % n;",
+            "\t\tres = max(res, tuple{squared_distance(a[i], a[j]), i, j});",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

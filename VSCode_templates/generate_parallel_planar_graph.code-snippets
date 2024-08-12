@@ -1,0 +1,42 @@
+{
+    "tranxuanbach": {
+        "prefix": "generate_parallel_planar_graph",
+        "body": [
+            "// Vertices 0 ~ n_l-1 lie on x=0 with increasing y coordinate",
+            "// Vertices n_l ~ n_l+n_r-1 lie on x = max_c with increasing y coordinate (can be decreasing if can_be_reversed = true)",
+            "// Requires point, line, and line_intersection",
+            "pair<vector<array<int, 2>>, vector<pointll>> generate_parallel_planar_graph(auto &&rng, int n, int n_l, int n_r, int m_max, bool can_be_reversed = false, int max_c = 1000000000){",
+            "\tassert(0 <= min(n_l, n_r) && n_l + n_r <= n);",
+            "\tvector<pointll> embedding(n);",
+            "\tfor(auto u = 0; u < n; ++ u){",
+            "\t\tif(u >= n_l + n_r) embedding[u].x = rng() % (max_c + 1);",
+            "\t\telse if(u >= n_l) embedding[u].x = max_c;",
+            "\t\tembedding[u].y = rng() % (max_c + 1);",
+            "\t}",
+            "\tsort(embedding.begin(), embedding.begin() + n_l);",
+            "\tif(!can_be_reversed || rng() & 1) sort(embedding.begin() + n_l, embedding.begin() + n_l + n_r);",
+            "\telse sort(embedding.begin() + n_l, embedding.begin() + n_l + n_r, greater<>());",
+            "\tvector<int> order(n);",
+            "\tiota(order.begin(), order.end(), 0);",
+            "\tsort(order.begin(), order.end(), [&](int u, int v){ return embedding[u] < embedding[v]; });",
+            "\tvector<array<int, 2>> edge;",
+            "\tfor(auto rep = m_max; n && rep; -- rep){",
+            "\t\tint i = rng() % (n - 1), j = rng() % (n - 1 - i) + i + 1;",
+            "\t\tint u = order[i], v = order[j];",
+            "\t\tlinell L(embedding[u], embedding[v]);",
+            "\t\tbool fail = false;",
+            "\t\tfor(auto [w, x]: edge){",
+            "\t\t\tlinell M(embedding[w], embedding[x]);",
+            "\t\t\tif(intersect_closed_segments(L, M)){",
+            "\t\t\t\tfail = true;",
+            "\t\t\t\tbreak;",
+            "\t\t\t}",
+            "\t\t}",
+            "\t\tif(!fail) edge.push_back({u, v});",
+            "\t}",
+            "\treturn {edge, embedding};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

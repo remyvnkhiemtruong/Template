@@ -1,0 +1,29 @@
+{
+    "tranxuanbach": {
+        "prefix": "rollback_disjoint_set",
+        "body": [
+            "struct rollback_disjoint_set{",
+            "\tvector<int> p;",
+            "\tvector<pair<int, int>> log;",
+            "\trollback_disjoint_set(int n): p(n, -1){ }",
+            "\tbool share(int a, int b){ return root(a) == root(b); }",
+            "\tint sz(int u){ return -p[root(u)]; }",
+            "\tint root(int u){ return p[u] < 0 ? u : p[u] = root(p[u]); } // O(log n)",
+            "\tbool merge(int u, int v){",
+            "\t\tu = root(u), v = root(v);",
+            "\t\tif(u == v) return false;",
+            "\t\tif(p[u] > p[v]) swap(u, v);",
+            "\t\tlog.emplace_back(u, p[u]), log.emplace_back(v, p[v]);",
+            "\t\tp[u] += p[v], p[v] = u;",
+            "\t\treturn true;",
+            "\t}",
+            "\tint time(){ return int(log.size()); }",
+            "\tvoid reverse_to(int t = 0){",
+            "\t\tfor(int i = time(); i --> t; ) p[log[i].first] = log[i].second;",
+            "\t\tlog.resize(t);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "tranxuanbach": {
+        "prefix": "testlib_init",
+        "body": [
+            "#include <bits/stdc++.h>",
+            "// #include <x86intrin.h>",
+            "#include \"testlib.h\"",
+            "using namespace std;",
+            "using namespace numbers;",
+            "",
+            "",
+            "",
+            "int main(int argc, char *argv[]){",
+            "\tregisterGen(argc, argv, 1); // For generators",
+            "\t// registerValidation(argc, argv); // For validators",
+            "\t// registerTestlibCmd(argc, argv); // For checkers",
+            "\t// registerInteraction(argc, argv); // For interactives",
+            "\t$0",
+            "\treturn 0;",
+            "}",
+            "",
+            "/*",
+            "",
+            "*/",
+            "",
+            "////////////////////////////////////////////////////////////////////////////////////////",
+            "//                                                                                    //",
+            "//                                   Coded by Aeren                                   //",
+            "//                                                                                    //",
+            "////////////////////////////////////////////////////////////////////////////////////////"
+        ],
+        "description": "tranxuanbach"
+    }
+}

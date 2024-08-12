@@ -1,0 +1,30 @@
+{
+    "tranxuanbach": {
+        "prefix": "test_group_commutativity",
+        "body": [
+            "// Source: \"Linear time algorithms for Abelian group isomorphism and related problems\" by T. Kavitha",
+            "// op: {0, ..., n-1}^2 -> {0, ..., n-1} must define a group.",
+            "// Less than 3n + log(n)^2 op() calls.",
+            "bool test_group_commutativity(int n, auto op){",
+            "\tassert(1 <= n);",
+            "\tvector<int> square(n), g, in_s(n), s;",
+            "\tfor(auto x = 0; x < n; ++ x) if(x == (square[x] = op(x, x))) s.push_back(x), in_s[x] = true;",
+            "\tfor(auto x = 0; x < n; ++ x){",
+            "\t\tif(in_s[x]) continue;",
+            "\t\tfor(auto y: g) if(op(x, y) != op(y, x)) return false;",
+            "\t\tg.push_back(x);",
+            "\t\tint size = (int)s.size();",
+            "\t\tfor(auto y = x, z = square[x]; ; y = z, z = op(y, x)){",
+            "\t\t\tfor(auto i = 0; i < size; ++ i) s.push_back(op(y, s[i])), in_s[s.back()] = true;",
+            "\t\t\tif(in_s[z]) break;",
+            "\t\t}",
+            "\t}",
+            "\treturn true;",
+            "}",
+            "bool test_group_commutativity(const vector<vector<int>> &g){",
+            "\treturn test_group_commutativity((int)g.size(), [&](int x, int y){ return g[x][y]; });",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

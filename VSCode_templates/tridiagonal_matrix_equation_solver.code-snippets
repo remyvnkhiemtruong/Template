@@ -1,0 +1,40 @@
+{
+    "tranxuanbach": {
+        "prefix": "tridiagonal_matrix_equation_solver",
+        "body": [
+            "// Source: KATL",
+            "// O(n) applications of division on T",
+            "template<class T>",
+            "vector<T> tridiagonal_matrix_equation_solver(vector<T> diag, const vector<T>& sup,",
+            "\t\tconst vector<T>& sub, vector<T> b){",
+            "\tint n = (int)b.size();",
+            "\tvector<int> tr(n);",
+            "\tfor(auto i = 0; i < n - 1; ++ i){",
+            "\t\tif(-T(1e-9) <= diag[i] && diag[i] <= T(1e-9)){",
+            "\t\t\tb[i + 1] -= b[i] * diag[i + 1] / sup[i];",
+            "\t\t\tif(i + 2 < n) b[i + 2] -= b[i] * sub[i + 1] / sup[i];",
+            "\t\t\tdiag[i + 1] = sub[i];",
+            "\t\t\ttr[++ i] = 1;",
+            "\t\t}",
+            "\t\telse{",
+            "\t\t\tdiag[i + 1] -= sup[i] * sub[i] / diag[i];",
+            "\t\t\tb[i+1] -= b[i] * sub[i] / diag[i];",
+            "\t\t}",
+            "\t}",
+            "\tfor(auto i = n; i --; ){",
+            "\t\tif(tr[i]){",
+            "\t\t\tswap(b[i], b[i - 1]);",
+            "\t\t\tdiag[i - 1] = diag[i];",
+            "\t\t\tb[i] /= sup[i - 1];",
+            "\t\t}",
+            "\t\telse{",
+            "\t\t\tb[i] /= diag[i];",
+            "\t\t\tif(i) b[i - 1] -= b[i] * sup[i - 1];",
+            "\t\t}",
+            "\t}",
+            "\treturn b;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

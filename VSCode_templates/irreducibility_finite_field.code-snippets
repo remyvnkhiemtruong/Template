@@ -1,0 +1,27 @@
+{
+    "tranxuanbach": {
+        "prefix": "irreducibility_finite_field",
+        "body": [
+            "// Requires finite_field and power_series_naive",
+            "template<class FF>",
+            "bool irreducibility_finite_field(power_series<FF> p){",
+            "\tassert(p);",
+            "\tp.reduce();",
+            "\tif((int)p.size() == 1) return true;",
+            "\tint n = (int)p.size() - 1;",
+            "\tauto gen = [&](int m){",
+            "\t\tpower_series<FF> q{0, 1};",
+            "\t\tfor(auto i = 0; i < m; ++ i) q.inplace_power_mod(FF::size, p);",
+            "\t\tq += power_series<FF>{0, 1};",
+            "\t\treturn q % p;",
+            "\t};",
+            "\tfor(auto pf = 2, x = n; pf <= x; ++ pf) if(x % pf == 0){",
+            "\t\tif((int)gcd(gen(n / pf), p).size() != 1) return false;",
+            "\t\twhile(x % pf == 0) x /= pf;",
+            "\t}",
+            "\treturn !gen(n);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

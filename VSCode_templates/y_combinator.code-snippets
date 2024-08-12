@@ -1,0 +1,18 @@
+{
+    "tranxuanbach": {
+        "prefix": "y_combinator",
+        "body": [
+            "template<class F>",
+            "struct y_combinator_result{",
+            "\tF f;",
+            "\ttemplate<class T> explicit y_combinator_result(T &&f): f(forward<T>(f)){ }",
+            "\ttemplate<class ...Args> decltype(auto) operator()(Args &&...args){ return f(ref(*this), forward<Args>(args)...); }",
+            "};",
+            "template<class F>",
+            "decltype(auto) y_combinator(F &&f){",
+            "\treturn y_combinator_result<decay_t<F>>(forward<F>(f));",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

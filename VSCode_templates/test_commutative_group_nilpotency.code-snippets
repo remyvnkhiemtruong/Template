@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "test_commutative_group_nilpotency",
+        "body": [
+            "// Source: \"Linear time algorithms for Abelian group isomorphism and related problems\" by T. Kavitha",
+            "// op: {0, ..., n-1}^2 -> {0, ..., n-1} must define a commutative group.",
+            "// Requires find_the_order_of_all_group_elements",
+            "bool test_commutative_group_nilpotency(int n, auto op, const vector<int> &order){",
+            "\tassert(1 <= n);",
+            "\tvector<int> cnt(n);",
+            "\tfor(auto x: order) ++ cnt[x - 1];",
+            "\tfor(auto p = 2, m = n; p <= m; ++ p){",
+            "\t\tif(m % p) continue;",
+            "\t\tint power = 1, c = 1;",
+            "\t\tfor(; m % p == 0; m /= p, power *= p) c += cnt[power * p - 1];",
+            "\t\tif(c != power) return false;",
+            "\t}",
+            "\treturn true;",
+            "}",
+            "// Extra 2n op() calls to find the orders.",
+            "bool test_commutative_group_nilpotency(int n, auto op){",
+            "\treturn test_commutative_group_nilpotency(n, op, find_the_order_of_all_group_elements(n, op));",
+            "}",
+            "// Extra 2n op() calls to find the orders.",
+            "bool test_commutative_group_nilpotency(const vector<vector<int>> &g){",
+            "\treturn test_commutative_group_nilpotency((int)g.size(), [&](int x, int y){ return g[x][y]; }, find_the_order_of_all_group_elements(g));",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

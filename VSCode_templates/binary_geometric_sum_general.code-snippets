@@ -1,0 +1,29 @@
+{
+    "tranxuanbach": {
+        "prefix": "binary_geometric_sum_general",
+        "body": [
+            "// Additive monoid U acts on additive monoid T.",
+            "// T_id: additive identity of T",
+            "// add(T x, T y): returns x + y",
+            "// apply(U b, T x): returns x * b",
+            "// merge(U b, U c): returns b * b",
+            "// Returns x + x * b + ... + x * b^(e-1)",
+            "// O(log(e)) applications of add, apply, and merge",
+            "template<class T, class U, class V>",
+            "T binary_geometric_sum_general(T x, U b, V e, T T_id, auto add, auto apply, auto merge){",
+            "\tassert(e >= 0);",
+            "\tT res = T_id;",
+            "\tfor(; e; e >>= 1){",
+            "\t\tif(e & 1){",
+            "\t\t\tres = add(x, res);",
+            "\t\t\tx = apply(b, x);",
+            "\t\t}",
+            "\t\tx = add(x, apply(b, x));",
+            "\t\tb = merge(b, b);",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

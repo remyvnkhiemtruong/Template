@@ -1,0 +1,20 @@
+{
+    "tranxuanbach": {
+        "prefix": "generate_simple_graph",
+        "body": [
+            "vector<array<int, 2>> generate_simple_graph(auto &&rng, int n, int m){",
+            "\tassert(1 <= n && 0 <= m && m <= 1LL * n * (n - 1) / 2);",
+            "\tvector<array<int, 2>> res(m);",
+            "\tset<array<int, 2>> s;",
+            "\tfor(auto &[u, v]: res){",
+            "\t\tdo{",
+            "\t\t\tu = rng() % n, v = rng() % n;",
+            "\t\t}while(u == v || s.count({u, v}) || s.count({v, u}));",
+            "\t\ts.insert({u, v}), s.insert({v, u});",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

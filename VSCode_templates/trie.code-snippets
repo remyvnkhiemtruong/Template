@@ -1,0 +1,41 @@
+{
+    "tranxuanbach": {
+        "prefix": "trie",
+        "body": [
+            "template<class Char_Type, class Adjacency_Type>",
+            "struct trie{",
+            "\tint n = 1; // # of active nodes(cnt != 0)",
+            "\tvector<Adjacency_Type> next{{}};",
+            "\tvector<int> cnt{1};",
+            "\ttrie(){ }",
+            "\ttrie(const vector<Adjacency_Type> &next, const vector<int> &cnt): n((int)next.size()), next(next), cnt(cnt){ }",
+            "\tint extend(){",
+            "\t\tnext.emplace_back();",
+            "\t\tcnt.push_back(0);",
+            "\t\treturn (int)next.size() - 1;",
+            "\t}",
+            "\tvoid insert(const vector<Char_Type> &a, int u = 0){",
+            "\t\tif(!cnt[u] ++) ++ n;",
+            "\t\tfor(auto c: a){",
+            "\t\t\tif(!next[u][c]) next[u][c] = extend();",
+            "\t\t\tu = next[u][c];",
+            "\t\t\tif(!cnt[u] ++) ++ n;",
+            "\t\t}",
+            "\t}",
+            "\tvoid erase(const vector<Char_Type> &a, int u = 0){",
+            "\t\tassert(cnt[u]);",
+            "\t\tif(!-- cnt[u]) -- n;",
+            "\t\tfor(auto c: a){",
+            "\t\t\tu = next[u][c];",
+            "\t\t\tassert(u && cnt[u]);",
+            "\t\t\tif(!-- cnt[u]) -- n;",
+            "\t\t}",
+            "\t}",
+            "\tint size() const{ // # of states",
+            "\t\treturn (int)cnt.size();",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

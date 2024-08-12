@@ -1,0 +1,17 @@
+{
+    "tranxuanbach": {
+        "prefix": "radical_axis",
+        "body": [
+            "// Returns the radical axis of two circles, first circle on the left.",
+            "// T must be of floating type",
+            "// O(1)",
+            "template<class T>",
+            "optional<line<T>> radical_axis(const point<T> &c1, T r1, const point<T> &c2, T r2){",
+            "\tif(c1 == c2) return {};",
+            "\tauto d = c2 - c1;",
+            "\treturn {{(c1 * (d * d - r1 * r1 + r2 * r2) + c2 * (d * d + r1 * r1 - r2 * r2)) / (2 * d * d), {-d.y, d.x}, false}};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

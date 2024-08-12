@@ -1,0 +1,23 @@
+{
+    "tranxuanbach": {
+        "prefix": "prefix_automaton",
+        "body": [
+            "// state u represents length of prefix matching.",
+            "// aut[u][c]: next state when c is added at the end",
+            "// O(Lim * n)",
+            "// Requires prefix_function",
+            "template<class Char_Type, int Lim>",
+            "pair<vector<int>, vector<array<int, Lim>>> prefix_automaton(const vector<Char_Type> &s){",
+            "\tint n = (int)s.size() + 1;",
+            "\tauto p = prefix_function<Char_Type, false>(s);",
+            "\tvector<array<int, Lim>> aut(n);",
+            "\tfor(auto i = 0; i < n; ++ i) for(auto c = 0; c < Lim; ++ c){",
+            "\t\tif(i > 0 && (i == n - 1 || c != s[i])) aut[i][c] = aut[p[i - 1]][c];",
+            "\t\telse aut[i][c] = i + (i < n - 1 && c == s[i]);",
+            "\t}",
+            "\treturn {p, aut};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

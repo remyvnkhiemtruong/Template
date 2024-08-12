@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "jacobi_symbol",
+        "body": [
+            "template<class T>",
+            "T jacobi_symbol(T a, T n){",
+            "\tassert(n > 0 && ~n & 1);",
+            "\ta = a % n;",
+            "\tT t = 1, r;",
+            "\tfor(; a; a %= n){",
+            "\t\twhile(a % 2 == 0){",
+            "\t\t\ta /= 2;",
+            "\t\t\tr = n % 8;",
+            "\t\t\tif(r == 3 || r == 5) t = -t;",
+            "\t\t}",
+            "\t\tr = n, n = a, a = r;",
+            "\t\tif(a % 4 == 3 && n % 4 == 3) t = -t;",
+            "\t}",
+            "\treturn n == 1 ? t : 0;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

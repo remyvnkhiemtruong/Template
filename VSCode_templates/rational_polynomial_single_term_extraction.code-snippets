@@ -1,0 +1,35 @@
+{
+    "tranxuanbach": {
+        "prefix": "rational_polynomial_single_term_extraction",
+        "body": [
+            "// Returns [X^i]p(X)/q(X)",
+            "// T must be of modular type",
+            "// deg(p) < deg(q) must hold",
+            "// O(n * log(n) * log(i))",
+            "// Requires modular and number_theoric_transform",
+            "template<class T, class U, class FFT = ntt>",
+            "T rational_polynomial_single_term_extraction(vector<T> p, vector<T> q, U i){",
+            "\tassert(!q.empty() && q[0]);",
+            "\tint n = 1 << __lg((int)q.size() << 1 | 1) + 1;",
+            "\tassert(i >= 0 && p.size() < q.size() && (T::mod() - 1) % n == 0);",
+            "\tp.resize(n);",
+            "\tFFT::transform(p);",
+            "\tq.resize(n);",
+            "\tFFT::transform(q);",
+            "\tT inv2 = T::mod() + 1 >> 1;",
+            "\tfor(; i; i >>= 1){",
+            "\t\tfor(auto i = 0; i < n; ++ i) p[i] *= q[n >> 1 ^ i];",
+            "\t\tif(~i & 1) for(auto i = 0; i < n >> 1; ++ i) p[i] = inv2 * (p[i] + p[n >> 1 ^ i]);",
+            "\t\telse for(auto i = 0; i < n >> 1; ++ i) p[i] = inv2 * (i ? -FFT::root[n - i] : T(1)) * (p[i] - p[n >> 1 ^ i]);",
+            "\t\tp.resize(n >> 1);",
+            "\t\tFFT::double_up(p);",
+            "\t\tfor(auto i = 0; i < n >> 1; ++ i) q[i] *= q[n >> 1 ^ i];",
+            "\t\tq.resize(n >> 1);",
+            "\t\tFFT::double_up(q);",
+            "\t}",
+            "\treturn accumulate(p.begin(), p.end(), T(0)) / accumulate(q.begin(), q.end(), T(0));",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

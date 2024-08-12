@@ -1,0 +1,37 @@
+{
+    "tranxuanbach": {
+        "prefix": "sqrtmod",
+        "body": [
+            "long long modexp(long long b, long long e, const long long &mod){",
+            "\tlong long res = 1;",
+            "\tfor(; e; b = b * b % mod, e >>= 1) if(e & 1) res = res * b % mod;",
+            "\treturn res;",
+            "}",
+            "long long sqrtmod(long long a, long long p){ // Returns sol to x^2=a mod p, O(log^2 p)",
+            "\ta %= p;",
+            "\tif(a < 0) a += p;",
+            "\tif(a == 0) return 0;",
+            "\tassert(modexp(a, (p - 1) / 2, p) == 1);",
+            "\tif(p % 4 == 3) return modexp(a, (p+1)/4, p);",
+            "\t// a^(n+3)/8 or 2^(n+3)/8 * 2^(n-1)/4 works if p % 8 == 5",
+            "\tlong long s = p - 1, n = 2;",
+            "\tint r = 0, m;",
+            "\twhile(s % 2 == 0) ++ r, s /= 2;",
+            "\t/// find a non-square mod p",
+            "\twhile(modexp(n, (p - 1) / 2, p) != p - 1) ++ n;",
+            "\tlong long x = modexp(a, (s + 1) / 2, p);",
+            "\tlong long b = modexp(a, s, p), g = modexp(n, s, p);",
+            "\tfor(;; r = m){",
+            "\t\tlong long t = b;",
+            "\t\tfor(m = 0; m < r && t != 1; ++ m) t = t * t % p;",
+            "\t\tif(m == 0) return x;",
+            "\t\tlong long gs = modexp(g, 1LL << (r - m - 1), p);",
+            "\t\tg = gs * gs % p;",
+            "\t\tx = x * gs % p;",
+            "\t\tb = b * g % p;",
+            "\t}",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

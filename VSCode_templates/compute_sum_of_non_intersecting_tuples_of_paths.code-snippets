@@ -1,0 +1,30 @@
+{
+    "tranxuanbach": {
+        "prefix": "hello",
+        "body": [
+            "// https://en.wikipedia.org/wiki/Lindstr%C3%B6m%E2%80%93Gessel%E2%80%93Viennot_lemma",
+            "// Returns \\sum_{P:from->to, P is vertex-non-intersecting}sign(P)*\\prod_{e: edge in P} w(e).",
+            "// G must be a DAG with a valid topological order order.",
+            "// Requires graph",
+            "template<class T, class U, class F1 = plus<>, class F2 = multiplies<>>",
+            "T compute_sum_of_non_intersecting_tuples_of_paths(const graph<U> &g, const vector<int> &order, const vector<int> &from, const vector<int> &to, auto determinant, T _type_deducer, F1 add = plus<>(), F2 multiply = multiplies<>()){",
+            "\tassert((int)from.size() == (int)to.size());",
+            "\tassert(g.n == (int)order.size());",
+            "\tint n = (int)from.size();",
+            "\tvector<vector<T>> M(n, vector<T>(n));",
+            "\tvector<T> dp(g.n);",
+            "\tfor(auto i = 0; i < n; ++ i){",
+            "\t\tfill(dp.begin(), dp.end(), 0);",
+            "\t\tdp[from[i]] = 1;",
+            "\t\tfor(auto u: order) for(auto id: g.adj[u]){",
+            "\t\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\t\tdp[g(u, id)] += dp[u] * g.edge[id].cost;",
+            "\t\t}",
+            "\t\tfor(auto j = 0; j < n; ++ j) M[i][j] = dp[to[j]];",
+            "\t}",
+            "\treturn determinant(M);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

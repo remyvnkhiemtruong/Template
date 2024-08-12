@@ -1,0 +1,38 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_all_cycle_masks",
+        "body": [
+            "// act(mask_of_cycle, last_vertex, dp, adjmask) where",
+            "// dp[mask]: set of vertices where some cycle can end on",
+            "// O(n * 2^n)",
+            "// Requires graph",
+            "template<class T>",
+            "void find_all_cycle_masks(const graph<T> &g, auto act_while){",
+            "\tint n = g.n;",
+            "\tassert(n <= 30);",
+            "\tvector<int> adjmask(n), checked(1 << n), dp(1 << n);",
+            "\tfor(auto u = 0; u < n; ++ u) for(auto id: g.adj[u]){",
+            "\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\tadjmask[u] |= 1 << g(u, id);",
+            "\t}",
+            "\tfor(auto s = n - 1; s >= 0; -- s){",
+            "\t\tfill(dp.begin(), dp.begin() + (1 << s + 1), 0);",
+            "\t\tdp[1 << s] = 1 << s;",
+            "\t\tfor(auto mask = 1; mask < 1 << s + 1; ++ mask){",
+            "\t\t\tint neighbor = 0;",
+            "\t\t\tfor(auto u = 0; u <= s; ++ u) if(dp[mask] & 1 << u){",
+            "\t\t\t\tif(!checked[mask] && adjmask[u] & 1 << s){",
+            "\t\t\t\t\tchecked[mask] = true;",
+            "\t\t\t\t\tif(!act_while(mask, u, dp, adjmask)) return;",
+            "\t\t\t\t}",
+            "\t\t\t\tneighbor |= adjmask[u];",
+            "\t\t\t}",
+            "\t\t\tneighbor &= ~mask;",
+            "\t\t\tfor(auto u = 0; u <= s; ++ u) if(neighbor & 1 << u) dp[mask | 1 << u] |= 1 << u;",
+            "\t\t}",
+            "\t}",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

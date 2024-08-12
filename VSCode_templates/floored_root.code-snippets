@@ -1,0 +1,42 @@
+{
+    "tranxuanbach": {
+        "prefix": "floored_root",
+        "body": [
+            "// Find floor(n^1/k) for non-negative integers n, k",
+            "struct floored_root{",
+            "\tvector<unsigned long long> pow[65];",
+            "\tfloored_root(){",
+            "\t\tfor(auto t = 2u; t < 1 << 16; ++ t){",
+            "\t\t\tunsigned long long s = t * t;",
+            "\t\t\ts = s * s;",
+            "\t\t\tfor(auto k = 4; ; ++ k){",
+            "\t\t\t\tpow[k].push_back(s);",
+            "\t\t\t\tif(__builtin_umulll_overflow(s, t, &s)) break;",
+            "\t\t\t}",
+            "\t\t}",
+            "\t}",
+            "\tunsigned long long sqrt(unsigned long long n) const{",
+            "\t\tunsigned long long x = sqrt(n);",
+            "\t\treturn x * x > n ? x - 1 : x;",
+            "\t}",
+            "\tunsigned long long cbrt(unsigned long long n) const{",
+            "\t\tunsigned long long x = 0, y = 0;",
+            "\t\tfor(auto s = 63; s >= 0; s -= 3){",
+            "\t\t\tx <<= 1;",
+            "\t\t\ty = 3 * x * (x + 1) + 1;",
+            "\t\t\tif(y <= (n >> s)) n -= y << s, ++ x;",
+            "\t\t}",
+            "\t\treturn x;",
+            "\t}",
+            "\tunsigned long long operator()(unsigned long long n, int k) const{",
+            "\t\tassert(1 <= k && k <= 64);",
+            "\t\tif(k == 1 || n == 0) return n;",
+            "\t\tif(k == 2) return sqrt(n);",
+            "\t\tif(k == 3) return cbrt(n);",
+            "\t\treturn upper_bound(pow[k].begin(), pow[k].end(), n) - pow[k].begin() + 1;",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

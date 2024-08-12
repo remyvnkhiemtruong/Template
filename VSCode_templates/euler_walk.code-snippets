@@ -1,0 +1,36 @@
+{
+    "tranxuanbach": {
+        "prefix": "euler_walk",
+        "body": [
+            "// returns an euler walk starting at s given that there are edge_cnt edges reachable from s",
+            "// Returns the edge list",
+            "// O(|V|+|E|)",
+            "template<class T>",
+            "optional<vector<int>> euler_walk(const graph<T> &g, int s, int edge_cnt){",
+            "\tif(!edge_cnt) return {{}};",
+            "\tint n = g.n, m = (int)g.edge.size();",
+            "\tvector<int> deg(n), its(n), used(m), res_e;",
+            "\tvector<array<int, 2>> st = {{s, -1}};",
+            "\t++ deg[s]; // to allow Euler paths, not just cycles",
+            "\twhile(!st.empty()){",
+            "\t\tauto [u, id] = st.back();",
+            "\t\tint &it = its[u], end = (int)g.adj[u].size();",
+            "\t\tif(g.ignore) while(it < end && g.ignore(g.adj[u][it])) ++ it;",
+            "\t\tif(it == end){",
+            "\t\t\tres_e.push_back(id), st.pop_back();",
+            "\t\t\tcontinue;",
+            "\t\t}",
+            "\t\tint id_next = g.adj[u][it ++];",
+            "\t\tif(!used[id_next]){",
+            "\t\t\tint v = g(u, id_next);",
+            "\t\t\t-- deg[u], ++ deg[v];",
+            "\t\t\tused[id_next] = 1, st.push_back({v, id_next});",
+            "\t\t}",
+            "\t}",
+            "\tfor(auto d: deg) if(d < 0 || (int)res_e.size() != edge_cnt + 1) return {};",
+            "\treturn {{res_e.rbegin() + 1, res_e.rend()}};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

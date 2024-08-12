@@ -1,0 +1,29 @@
+{
+    "tranxuanbach": {
+        "prefix": "block_minmax_processor",
+        "body": [
+            "// Block min by default. Set cmp = greater for block max",
+            "// Returns indices",
+            "// O(n)",
+            "template<class T, class Compare = less<>>",
+            "vector<int> block_minmax_processor(const vector<T> &a, int block, Compare cmp = less<>()){",
+            "\tint n = (int)a.size();",
+            "\tassert(1 <= block && block <= n);",
+            "\tvector<int> res(n - block + 1);",
+            "\tdeque<int> dq;",
+            "\tfor(auto i = 0; i < block - 1; ++ i){",
+            "\t\twhile(!dq.empty() && !cmp(a[dq.back()], a[i])) dq.pop_back();",
+            "\t\tdq.push_back(i);",
+            "\t}",
+            "\tfor(auto i = block - 1; i < n; ++ i){",
+            "\t\twhile(!dq.empty() && !cmp(a[dq.back()], a[i])) dq.pop_back();",
+            "\t\tdq.push_back(i);",
+            "\t\tres[i - block + 1] = dq.front();",
+            "\t\tif(dq.front() == i - block + 1) dq.pop_front();",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "tranxuanbach": {
+        "prefix": "touchard_polynomial",
+        "body": [
+            "// O(n * log(n))",
+            "// Requires modular and number_theoric_transform",
+            "template<class T, class FFT>",
+            "vector<T> touchard_polynomial(int n){",
+            "\tvector<T> fact(n + 1, 1), invfact(n + 1, 1), p(n + 1), q(n + 1);",
+            "\tfor(auto i = 2; i <= n; ++ i) fact[i] = fact[i - 1] * i;",
+            "\tinvfact[n] = 1 / fact[n];",
+            "\tfor(auto i = n - 1; i >= 2; -- i) invfact[i] = invfact[i + 1] * (i + 1);",
+            "\tfor(auto i = 0; i <= n; ++ i){",
+            "\t\tp[i] = invfact[i] * (i & 1 ? -1 : 1);",
+            "\t\tq[i] = invfact[i] * T(i).power(n);",
+            "\t}",
+            "\t(p = FFT::convolute(p, q)).resize(n + 1);",
+            "\treturn p;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "tranxuanbach": {
+        "prefix": "simulated_annealing",
+        "body": [
+            "// base: starting state",
+            "// neighboring_state(state): returns a random neighbor of state",
+            "// evaluate(state): returns the score of the state",
+            "// Returns the state with maximum score among the searched states",
+            "template<class State>",
+            "State simulated_annealing(State base, auto neighboring_state, auto evaluate, double time_limit){",
+            "\tmt19937 rng(chrono::high_resolution_clock::now().time_since_epoch().count());",
+            "\tuniform_real_distribution<double> gen(0, 1);",
+            "\tState current = base, best = current;",
+            "\tauto current_score = evaluate(current), best_score = current_score;",
+            "\t// Returns a real number in [0, 1]",
+            "\tauto acceptance_probability = [&](auto current_score, auto next_score, double temperature)->double{",
+            "\t\treturn next_score < current_score ? 1 : exp((current_score - next_score) / temperature);",
+            "\t};",
+            "\tfor(auto START = chrono::high_resolution_clock::now(); chrono::duration<double>(chrono::high_resolution_clock::now() - START).count() <= time_limit; ){",
+            "\t\tdouble temperature = chrono::duration<double>(chrono::high_resolution_clock::now() - START).count() / time_limit;",
+            "\t\tState next = neighboring_state(current);",
+            "\t\tauto next_score = evaluate(next);",
+            "\t\tif(best_score < next_score){",
+            "\t\t\tbest = next;",
+            "\t\t\tbest_score = next_score;",
+            "\t\t}",
+            "\t\tif((next_score < current_score ? 1 : exp((current_score - next_score) / temperature)) >= gen(rng)){",
+            "\t\t\tcurrent = next;",
+            "\t\t\tcurrent_score = next_score;",
+            "\t\t}",
+            "\t}",
+            "\treturn best;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

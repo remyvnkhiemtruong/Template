@@ -1,0 +1,33 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_all_matchings_with_wildcard",
+        "body": [
+            "// Returns the list of all positions in [0, n() of text in pattern, where the text is assumed to have infinite trailing wildcards.",
+            "// 0 represents wildcard, where it can match with any character",
+            "// Assumes low alphabet size. Switch to higher percision FFT if not.",
+            "// O((n + m) * log(n + m))",
+            "// Requres fast_fourier_transform",
+            "template<class Char_Type>",
+            "vector<int> find_all_matchings_with_wildcard(const vector<Char_Type> &text, const vector<Char_Type> &pattern){",
+            "\tint n = (int)text.size(), m = (int)pattern.size();",
+            "\tvector<long long> p(n), q(m), r(n + m - 1), temp;",
+            "\tfor(auto e = 1; e <= 3; ++ e){",
+            "\t\tfor(auto i = 0; i < n; ++ i){",
+            "\t\t\tp[i] = 1;",
+            "\t\t\tfor(auto rep = e; rep; -- rep) p[i] *= text[i];",
+            "\t\t}",
+            "\t\tfor(auto j = 0; j < m; ++ j){",
+            "\t\t\tq[j] = 1;",
+            "\t\t\tfor(auto rep = 4 - e; rep; -- rep) q[j] *= pattern[m - 1 - j];",
+            "\t\t}",
+            "\t\ttemp = fft::convolute_splitting(p, q);",
+            "\t\tfor(auto k = 0; k < n + m - 1; ++ k) r[k] += (e == 2 ? -2 : 1) * temp[k];",
+            "\t}\\",
+            "\tvector<int> res;",
+            "\tfor(auto i = 0; i < n; ++ i) if(!r[i + m - 1]) res.push_back(i);",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "tranxuanbach": {
+        "prefix": "sparse_minimal_polynomial",
+        "body": [
+            "// Calculate the minimal polynomial of the sparse matrix",
+            "// Reads dimension n and its elements in form tuple{row, column, value}",
+            "// O(n * (n + |a|) + |a| * log(mod))",
+            "// T must be of modular type",
+            "// Requires linear_recurrence_solver",
+            "template<class T>",
+            "vector<T> sparse_minimal_polynomial(auto &&rng, int n, const vector<tuple<int, int, T>> &a){",
+            "\tvector<T> v(n), p(n), s;",
+            "\tgenerate(v.begin(), v.end(), rng), generate(p.begin(), p.end(), rng);",
+            "\tfor(auto rep = 0; rep < n << 1; ++ rep){",
+            "\t\tT x  = 0;",
+            "\t\tfor(auto i = 0; i < n; ++ i) x += v[i] * p[i];",
+            "\t\ts.push_back(x);",
+            "\t\tvector<T> p_next(n);",
+            "\t\tfor(auto [i, j, val]: a) p_next[i] += val * p[j];",
+            "\t\tswap(p, p_next);",
+            "\t}",
+            "\tauto poly = linear_recurrence_solver(s).coef;",
+            "\tfor(auto &x: poly) x = -x;",
+            "\tpoly.push_back(1);",
+            "\treturn poly;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

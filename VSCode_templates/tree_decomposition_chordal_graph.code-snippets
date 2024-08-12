@@ -1,0 +1,37 @@
+{
+    "tranxuanbach": {
+        "prefix": "tree_decomposition_chordal_graph",
+        "body": [
+            "// Requires graph, lexicographical_bfs_forest, and recognize_chordal_graphs",
+            "template<class T>",
+            "pair<vector<vector<int>>, vector<array<int, 2>>> // bags, edges",
+            "tree_decomposition_chordal_graph(const graph<T> &g){",
+            "\tint n = g.n;",
+            "\tauto orderptr = recognize_chordal_graphs(g);",
+            "\tassert(orderptr);",
+            "\tauto order = *orderptr;",
+            "\tvector<int> pos(n);",
+            "\tfor(auto i = 0; i < n; ++ i) pos[order[i]] = i;",
+            "\tvector<vector<int>> bags;",
+            "\tvector<array<int, 2>> edge;",
+            "\tvector<int> label(n, -1);",
+            "\treverse(order.begin(), order.end());",
+            "\tfor(auto u: order){",
+            "\t\tint i = (int)bags.size();",
+            "\t\tlabel[u] = i;",
+            "\t\tvector<int> bag{u};",
+            "\t\tfor(auto id: g.adj[u]){",
+            "\t\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\t\tint v = g(u, id);",
+            "\t\t\tif(pos[u] < pos[v]) bag.push_back(v);",
+            "\t\t}",
+            "\t\tif((int)bag.size() >= 2) edge.push_back({i, label[*min_element(bag.begin() + 1, bag.end(), [&](int u, int v){ return pos[u] < pos[v]; })]});",
+            "\t\tsort(bag.begin(), bag.end());",
+            "\t\tbags.push_back(bag);",
+            "\t}",
+            "\treturn {bags, edge};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

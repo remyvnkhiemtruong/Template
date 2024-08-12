@@ -1,0 +1,39 @@
+{
+    "tranxuanbach": {
+        "prefix": "generate_chordal_graph",
+        "body": [
+            "vector<array<int, 2>> generate_chordal_graph(auto &&rng, int n){",
+            "\tvector<vector<int>> adj(n);",
+            "\tfor(auto [u, v]: generate_tree(rng, n)){",
+            "\t\tadj[u].push_back(v);",
+            "\t\tadj[v].push_back(u);",
+            "\t}",
+            "\tint it = 0;",
+            "\tvector<int> pos(n), end(n);",
+            "\tauto dfs = [&](auto self, int u, int p)->void{",
+            "\t\tpos[u] = it ++;",
+            "\t\tfor(auto v: adj[u]) if(v != p) self(self, v, u);",
+            "\t\tend[u] = it;",
+            "\t};",
+            "\tdfs(dfs, 0, -1);",
+            "\tvector<vector<int>> insert(n), erase(n + 1);",
+            "\tfor(auto i = 0; i < n; ++ i){",
+            "\t\tint u = rng() % n;",
+            "\t\tinsert[pos[u]].push_back(i);",
+            "\t\terase[end[u]].push_back(i);",
+            "\t}",
+            "\tset<int> state;",
+            "\tvector<array<int, 2>> res;",
+            "\tfor(auto t = 0; t < n; ++ t){",
+            "\t\tfor(auto u: erase[t]) state.erase(u);",
+            "\t\tfor(auto u: insert[t]){",
+            "\t\t\tfor(auto v: state) res.push_back({u, v});",
+            "\t\t\tstate.insert(u);",
+            "\t\t}",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

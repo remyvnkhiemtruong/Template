@@ -1,0 +1,21 @@
+{
+    "tranxuanbach": {
+        "prefix": "extended_euclidean",
+        "body": [
+            "// Returns g=gcd(a,b), and x and y store values with ax+by=g",
+            "// O(log(min(abs(a), abs(b))))",
+            "template<class T>",
+            "T extended_euclidean(T a, T b, T &x, T &y){",
+            "\tif(a < 0) a = -a;",
+            "\tif(b < 0) b = -b;",
+            "\tx = 1, y = 0;",
+            "\tfor(T q, r, u = 0, v = 1; b; ){",
+            "\t\tq = a / b, r = a % b;",
+            "\t\ttie(a, b, x, y, u, v) = tuple{b, r, u, v, x - u * q, y - v * q};",
+            "\t}",
+            "\treturn a;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

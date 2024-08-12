@@ -1,0 +1,32 @@
+{
+    "tranxuanbach": {
+        "prefix": "png_parser",
+        "body": [
+            "#include \"lodepng.h\"",
+            "struct png_parser{",
+            "\tstatic tuple<vector<unsigned char>, unsigned int, unsigned int>",
+            "\tdecode(const char *file){",
+            "\t\tvector<unsigned char> image;",
+            "\t\tunsigned int width, height;",
+            "\t\tif(auto error = lodepng::decode(image, width, height, file)){",
+            "\t\t\tcerr << \"Decoder Error \" << error << \": \" << lodepng_error_text(error) << endl;",
+            "\t\t\texit(1);",
+            "\t\t}",
+            "\t\treturn {image, width, height};",
+            "\t}",
+            "\tstatic void encode(",
+            "\t\tconst vector<unsigned char> &image,",
+            "\t\tunsigned int width,",
+            "\t\tunsigned int height,",
+            "\t\tconst char *file",
+            "\t){",
+            "\t\tif(auto error = lodepng::encode(file, image, width, height)){",
+            "\t\t\tcerr << \"Encoder Error \" << error << \": \"<< lodepng_error_text(error) << endl;",
+            "\t\t\texit(2);",
+            "\t\t}",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

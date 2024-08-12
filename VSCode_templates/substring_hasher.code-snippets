@@ -1,0 +1,30 @@
+{
+    "tranxuanbach": {
+        "prefix": "substring_hasher",
+        "body": [
+            "// Requires modular and (hash or hash_bidirectional)",
+            "template<class hash_t>",
+            "struct substring_hasher{",
+            "\tint n;",
+            "\tvector<hash_t> prefix;",
+            "\tsubstring_hasher(){ }",
+            "\t// O(n)",
+            "\ttemplate<class T>",
+            "\tsubstring_hasher(const vector<T> &a){ build(a); }",
+            "\t// O(n)",
+            "\ttemplate<class T>",
+            "\tvoid build(const vector<T> &a){",
+            "\t\tn = (int)a.size();",
+            "\t\tprefix.resize(n + 1);",
+            "\t\tfor(auto i = 0; i < n; ++ i) prefix[i + 1] = prefix[i] + a[i];",
+            "\t}",
+            "\t// O(1)",
+            "\thash_t hash(int l, int r) const{",
+            "\t\tassert(0 <= l && l <= r && r <= n);",
+            "\t\treturn prefix[r].pop_left(prefix[l]);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

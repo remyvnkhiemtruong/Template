@@ -1,0 +1,41 @@
+{
+    "tranxuanbach": {
+        "prefix": "half_planes_intersection",
+        "body": [
+            "// Each half planes are identified by the left side of the given directed line",
+            "// If the intersection is unbounded or empty, returns an empty list",
+            "// Equivalent to finding convex hull by duality",
+            "// O(n log n) (or O(n) if is_sorted is true)",
+            "// T must be able to hold max_coordinate ^ 4",
+            "// Requires point and line",
+            "template<class T>",
+            "vector<line<T>> half_planes_intersection(vector<line<T>> a, bool is_sorted = false){",
+            "\tstatic constexpr T eps = (T) 1e-9;",
+            "\tauto sign = [&](const line<T> &l){",
+            "\t\treturn abs(l.d.y) <= eps ? l.p.x > l.q().x : l.p.y > l.q().y;",
+            "\t};",
+            "\tif(!is_sorted){",
+            "\t\tstable_sort(a.begin(), a.end(), [&](const line<T> &l, const line<T> &m){",
+            "\t\t\treturn sign(l) != sign(m) ? sign(l) < sign(m) : l.parallel_to(m) ? (l.d ^ m.p - l.p) < 0 : (l.d ^ m.d) > 0;",
+            "\t\t});",
+            "\t}",
+            "\tdeque<line<T>> dq;",
+            "\tauto bad = [&](const line<T> &l, const line<T> &m, const line<T> &n)->bool{ // n contains intersection of l and n",
+            "\t\tauto s = l.d ^ m.d;",
+            "\t\tif(abs(s) <= eps) return false;",
+            "\t\tauto p = n.d ^ (l.p * s + l.d * (m.p - l.p ^ m.d)) - n.p * s;",
+            "\t\treturn s > 0 ? p <= eps : p >= -eps;",
+            "\t};",
+            "\tfor(auto p: a){",
+            "\t\tif(!dq.empty() && dq.back().parallel_to(p)) continue;",
+            "\t\twhile((int)dq.size() >= 2 && bad(dq[(int)dq.size() - 2], dq.back(), p)) dq.pop_back();",
+            "\t\twhile((int)dq.size() >= 2 && bad(dq[0], dq[1], p)) dq.pop_front();",
+            "\t\tif((int)dq.size() < 2 || !bad(dq.back(), p, dq.front())) dq.push_back(p);",
+            "\t}",
+            "\tif((int)dq.size() < 3 || (dq.front().d ^ dq.back().d) >= 0) dq.clear();",
+            "\treturn {dq.begin(), dq.end()};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

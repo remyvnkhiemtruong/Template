@@ -1,0 +1,39 @@
+{
+    "tranxuanbach": {
+        "prefix": "minimum_mean_weight_cycle",
+        "body": [
+            "// G must be a weighted directed graph",
+            "// Returns the edge list for minimum mean weight cycle if there are any",
+            "// O(|V| * (|V| + |E|))",
+            "// Requires graph",
+            "template<class T, class U>",
+            "optional<vector<int>> minimum_mean_weight_cycle(const graph<T> &g){",
+            "\tint n = g.n;",
+            "\tstatic const U inf = numeric_limits<U>::max();",
+            "\tvector<vector<U>> dp(n + 1, vector<U>(n, inf));",
+            "\tvector<vector<int>> pe(n + 1, vector<int>(n, -1));",
+            "\tfill(dp[0].begin(), dp[0].end(), 0);",
+            "\tfor(auto x = 1; x <= n; ++ x) for(auto id = 0; id < (int)g.edge.size(); ++ id){",
+            "\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\tauto [u, v, w] = g.edge[id];",
+            "\t\tif(dp[x - 1][u] != inf && dp[x - 1][u] + w < dp[x][v]) dp[x][v] = dp[x - 1][u] + w, pe[x][v] = id;",
+            "\t}",
+            "\tint src = -1;",
+            "\tarray<U, 2> cost{1, 0};",
+            "\tfor(auto u = 0; u < n; ++ u) if(dp[n][u] != inf){",
+            "\t\tarray<U, 2> cur{-1, 0};",
+            "\t\tfor(auto x = 0; x <= n; ++ x) if(cur[0] * (n - x) < (dp[n][u] - dp[x][u]) * cur[1]) cur = {dp[n][u] - dp[x][u], n - x};",
+            "\t\tif(cost[0] * cur[1] > cur[0] * cost[1]) src = u, cost = cur;",
+            "\t}",
+            "\tif(!cost[1]) return {};",
+            "\tvector<int> path, was(n, -1);",
+            "\tfor(auto u = src, x = n; ; u = g.edge[pe[x --][u]].from){",
+            "\t\tif(~was[u]) return vector<int>{path.rbegin(), path.rend() - was[u]};",
+            "\t\twas[u] = (int)path.size();",
+            "\t\tpath.push_back(pe[x][u]);",
+            "\t}",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

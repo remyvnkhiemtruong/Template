@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "quotient_group",
+        "body": [
+            "// Assumes s is a normal subgroup.",
+            "// Returns {quotient group operation, cosets}.",
+            "array<vector<vector<int>>, 2> quotient_group(int n, auto op, const vector<int> &s){",
+            "\tvector<vector<int>> cosets{s};",
+            "\tvector<int> in_cosets(n), id(n, -1);",
+            "\tfor(auto x: s) in_cosets[x] = true, id[x] = 0;",
+            "\tfor(auto x = 0; x < n; ++ x) if(!in_cosets[x]){",
+            "\t\tcosets.emplace_back();",
+            "\t\tfor(auto y: s){",
+            "\t\t\tint z = op(x, y);",
+            "\t\t\tassert(!in_cosets[z]);",
+            "\t\t\tcosets.back().push_back(z);",
+            "\t\t\tin_cosets[z] = true;",
+            "\t\t\tid[z] = (int)cosets.size() - 1;",
+            "\t\t}",
+            "\t}",
+            "\tvector<vector<int>> qop((int)cosets.size(), vector<int>((int)cosets.size()));",
+            "\tfor(auto i = 0; i < (int)cosets.size(); ++ i) for(auto j = 0; j < (int)cosets.size(); ++ j) qop[i][j] = id[op(cosets[i][0], cosets[j][0])];",
+            "\treturn {qop, cosets};",
+            "}",
+            "array<vector<vector<int>>, 2> quotient_group(const vector<vector<int>> &g, const vector<int> &s){",
+            "\treturn quotient_group((int)g.size(), [&](int x, int y){ return g[x][y]; }, s);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

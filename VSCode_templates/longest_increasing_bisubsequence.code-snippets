@@ -1,0 +1,34 @@
+{
+    "tranxuanbach": {
+        "prefix": "longest_increasing_bisubsequence",
+        "body": [
+            "// Returns the indices",
+            "// O(n log^2 n)",
+            "template<class T, class U, class CompareT = less<>, class CompareU = less<>>",
+            "vector<int> longest_increasing_bisubsequence(const vector<T> &a, const vector<U> &b, CompareT cmpT = less<>(), CompareU cmpU = less<>()){",
+            "\tint n = (int)a.size();",
+            "\tassert((int)b.size() == n);",
+            "\tauto cmp = [&](int i, int j)->bool{",
+            "\t\treturn cmpT(a[i], a[j]) ? true : cmpT(a[j], a[i]) ? false : cmpU(b[i], b[j]);",
+            "\t};",
+            "\tvector<set<int, decltype(cmp)>> active;",
+            "\tvector<int> prev(n, -1);",
+            "\tfor(auto i = 0; i < n; ++ i){",
+            "\t\tauto it = partition_point(active.begin(), active.end(), [&](const auto &s){",
+            "\t\t\tauto it = s.lower_bound(i);",
+            "\t\t\treturn it != s.begin() && cmpU(b[*std::prev(it)], b[i]);",
+            "\t\t});",
+            "\t\tif(it != active.begin()) prev[i] = *std::prev(std::prev(it)->lower_bound(i));",
+            "\t\tif(it == active.end()) active.push_back(set<int, decltype(cmp)>(cmp)), it = std::prev(active.end());",
+            "\t\tauto &s = *it;",
+            "\t\tfor(auto it2 = next(s.insert(i).first); it2 != s.end() && cmpU(b[i], b[*it2]); it2 = s.erase(it2));",
+            "\t}",
+            "\tint len = (int)active.size(), cur = *active.back().begin();",
+            "\tvector<int> res(len);",
+            "\twhile(len --) res[len] = cur, cur = prev[cur];",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

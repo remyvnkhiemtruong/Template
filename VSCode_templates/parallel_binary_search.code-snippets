@@ -1,0 +1,38 @@
+{
+    "tranxuanbach": {
+        "prefix": "parallel_binary_search",
+        "body": [
+            "// For each of n items, return the first state which pred returns false",
+            "// Binary search state lies within [low, high)",
+            "// init(): set the state to low",
+            "// advance(t): increase the state by one where the current state is t",
+            "// pred(i): check if item i satisfies the pred for current state (must be T, T, ..., T, F, ..., F)",
+            "// O(log(high - low)) init() calls",
+            "// O((high - low) * log(high - low)) advance() calls",
+            "// O(n * log(high - low)) pred() calls",
+            "vector<int> parallel_binary_search(int n, int low, int high, auto init, auto advance, auto pred){",
+            "\tassert(low <= high);",
+            "\tvector<int> l(n, low), r(n, high);",
+            "\tvector<vector<int>> update(high - low);",
+            "\tinit();",
+            "\tfor(auto i = 0; i < n; ++ i) if(!pred(i)) r[i] = low;",
+            "\twhile(true){",
+            "\t\tbool done = true;",
+            "\t\tfor(auto i = 0; i < n; ++ i) if(r[i] - l[i] >= 2){",
+            "\t\t\tdone = false;",
+            "\t\t\tupdate[l[i] + (r[i] - l[i] >> 1) - low].push_back(i);",
+            "\t\t}",
+            "\t\tif(done) break;",
+            "\t\tfor(auto s = low; s < high; ++ s){",
+            "\t\t\tfor(auto i: update[s - low]) (pred(i) ? l : r)[i] = s;",
+            "\t\t\tupdate[s - low].clear();",
+            "\t\t\tif(s + 1 < high) advance(s);",
+            "\t\t}",
+            "\t\tinit();",
+            "\t}",
+            "\treturn r;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

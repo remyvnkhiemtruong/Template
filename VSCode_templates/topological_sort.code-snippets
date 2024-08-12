@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "topological_sort",
+        "body": [
+            "// O(|V| + |E|)",
+            "template<class T>",
+            "optional<vector<int>> topological_sort(const graph<T> &g){",
+            "\tint n = g.n;",
+            "\tvector<int> indeg(n), res;",
+            "\tfor(int u = 0; u < n; ++ u) for(auto id: g.adj[u]){",
+            "\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\tint v = g(u, id);",
+            "\t\t++ indeg[v];",
+            "\t}",
+            "\tdeque<int> dq;",
+            "\tfor(int u = 0; u < n; ++ u) if (!indeg[u]) dq.push_back(u);",
+            "\twhile(!dq.empty()){",
+            "\t\tint u = dq.front(); dq.pop_front();",
+            "\t\tres.push_back(u);",
+            "\t\tfor(auto id: g.adj[u]){",
+            "\t\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\t\tint v = g(u, id);",
+            "\t\t\tif(!-- indeg[v]) dq.push_back(v);",
+            "\t\t}",
+            "\t}",
+            "\treturn (int)res.size() == n ? optional{res} : optional<vector<int>>{};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

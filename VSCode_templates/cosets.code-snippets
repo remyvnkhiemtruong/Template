@@ -1,0 +1,28 @@
+{
+    "tranxuanbach": {
+        "prefix": "cosets",
+        "body": [
+            "// Assumes s is a subset.",
+            "// At most n op() calls.",
+            "vector<vector<int>> cosets(int n, auto op, const vector<int> &s){",
+            "\tvector<vector<int>> res{s};",
+            "\tvector<int> in_res(n);",
+            "\tfor(auto x: s) in_res[x] = true;",
+            "\tfor(auto x = 0; x < n; ++ x) if(!in_res[x]){",
+            "\t\tres.emplace_back();",
+            "\t\tfor(auto y: s){",
+            "\t\t\tint z = op(x, y);",
+            "\t\t\tassert(!in_res[z]);",
+            "\t\t\tres.back().push_back(z);",
+            "\t\t\tin_res[z] = true;",
+            "\t\t}",
+            "\t}",
+            "\treturn res;",
+            "}",
+            "vector<vector<int>> cosets(const vector<vector<int>> &g, const vector<int> &s){",
+            "\treturn cosets((int)g.size(), [&](int x, int y){ return g[x][y]; }, s);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

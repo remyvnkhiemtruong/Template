@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "generate_simply_connected_graph",
+        "body": [
+            "// Requires generate_tree",
+            "vector<array<int, 2>> generate_simply_connected_graph(auto &&rng, int n, int m){",
+            "\tassert(n - 1 <= m && m <= 1LL * n * (n - 1) / 2);",
+            "\tauto res = generate_tree(rng, n);",
+            "\tset<array<int, 2>> s;",
+            "\tfor(auto [u, v]: res) s.insert({u, v}), s.insert({v, u});",
+            "\tfor(auto rep = n - 1; rep < m; ++ rep){",
+            "\t\tint u, v;",
+            "\t\tdo{",
+            "\t\t\tu = rng() % n, v = rng() % n;",
+            "\t\t}while(u == v || s.count({u, v}));",
+            "\t\ts.insert({u, v}), s.insert({v, u});",
+            "\t\tres.push_back({u, v});",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

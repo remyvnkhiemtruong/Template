@@ -1,0 +1,36 @@
+{
+    "tranxuanbach": {
+        "prefix": "global_min_cut",
+        "body": [
+            "// O(V^3)",
+            "template<class T>",
+            "pair<T, vector<int>> global_min_cut(vector<vector<T>> adjm){",
+            "\tint n = (int)adjm.size();",
+            "\tvector<int> used(n);",
+            "\tvector<int> cut, best_cut;",
+            "\tT best_weight = -1;",
+            "\tfor(auto phase = n - 1; phase >= 0; -- phase){",
+            "\t\tvector<T> w = adjm[0];",
+            "\t\tvector<int> added = used;",
+            "\t\tint prev, k = 0;",
+            "\t\tfor(auto i = 0; i < phase; ++ i){",
+            "\t\t\tprev = k, k = -1;",
+            "\t\t\tfor(auto j = 1; j < n; ++ j) if(!added[j] && (k == -1 || w[j] > w[k])) k = j;",
+            "\t\t\tif(i == phase - 1){",
+            "\t\t\t\tfor(auto j = 0; j < n; ++ j) adjm[prev][j] += adjm[k][j];",
+            "\t\t\t\tfor(auto j = 0; j < n; ++ j) adjm[j][prev] = adjm[prev][j];",
+            "\t\t\t\tused[k] = true, cut.push_back(k);",
+            "\t\t\t\tif(best_weight == -1 || w[k] < best_weight) best_cut = cut, best_weight = w[k];",
+            "\t\t\t}",
+            "\t\t\telse{",
+            "\t\t\t\tfor(auto j = 0; j < n; ++ j) w[j] += adjm[k][j];",
+            "\t\t\t\tadded[k] = true;",
+            "\t\t\t}",
+            "\t\t}",
+            "\t}",
+            "\treturn {best_weight, best_cut};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

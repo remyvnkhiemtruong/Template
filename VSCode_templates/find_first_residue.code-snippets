@@ -1,0 +1,34 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_first_residue",
+        "body": [
+            "// https://codeforces.com/blog/entry/90690",
+            "// Returns min x s.t. l <= a * x % m <= r (or numeric_limits<T>::max() if no such solutions)",
+            "// O(log min(m, a))",
+            "template<class T>",
+            "T find_first_residue(T m, T a, T l, T r){",
+            "\tl = clamp<T>(l, 0, m - 1), r = clamp<T>(r, 0, m - 1);",
+            "\tif(l == 0) return 0;",
+            "\ta %= m;",
+            "\tT res = 0, s1 = 1, s2 = 0;",
+            "\twhile(a){",
+            "\t\tif(2 * a > m){",
+            "\t\t\ta = m - a, l = m - l, r = m - r;",
+            "\t\t\tswap(l, r);",
+            "\t\t\tres += s2, s1 -= s2, s2 *= -1;",
+            "\t\t}",
+            "\t\tT ff = (l + a - 1) / a;",
+            "\t\tif(a * ff <= r) return res + ff * s1;",
+            "\t\tres += (ff - 1) * s1, ff = (ff - 1) * a, l -= ff, r -= ff;",
+            "\t\tT z = (m + a - 1) / a;",
+            "\t\ts2 = s1 * z - s2;",
+            "\t\tswap(s1, s2);",
+            "\t\tm = z * a - m;",
+            "\t\tswap(a, m);",
+            "\t}",
+            "\treturn numeric_limits<T>::max();",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

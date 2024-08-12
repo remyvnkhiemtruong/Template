@@ -1,0 +1,43 @@
+{
+    "tranxuanbach": {
+        "prefix": "floyd_warshall",
+        "body": [
+            "template<class T>",
+            "struct floyd_warshall{",
+            "\tint n;",
+            "\tvector<vector<T>> dist;",
+            "\tfloyd_warshall(int n): n(n), dist(n, vector<T>(n)){ }",
+            "\t// Assumes the graph has no negative cycle",
+            "\t// O(|V|^3)",
+            "\ttemplate<class U>",
+            "\tvoid run(const vector<vector<U>> &adjm){",
+            "\t\tassert(!n && adjm.empty() || n == (int)adjm.size() && n == (int)adjm[0].size());",
+            "\t\tfor(auto u = 0; u < n; ++ u) for(auto v = 0; v < n; ++ v) dist[u][v] = adjm[u][v];",
+            "\t\tfor(auto w = 0; w < n; ++ w) for(auto u = 0; u < n; ++ u) for(auto v = 0; v < n; ++ v) dist[u][v] = min(dist[u][v], dist[u][w] + dist[w][v]);",
+            "\t}",
+            "\ttemplate<class U>",
+            "\tvoid run(const vector<tuple<int, int, U>> &edge, bool directed = false){",
+            "\t\tvector<vector<T>> adjm(n, vector<T>(n, numeric_limits<T>::max() / 2));",
+            "\t\tfor(auto u = 0; u < n; ++ u) adjm[u][u] = 0;",
+            "\t\tfor(auto [u, v, w]: edge){",
+            "\t\t\tadjm[u][v] = min<T>(adjm[u][v], w);",
+            "\t\t\tif(!directed) adjm[v][u] = adjm[u][v];",
+            "\t\t}",
+            "\t\trun(adjm);",
+            "\t}",
+            "\t// Requires graph",
+            "\ttemplate<class G>",
+            "\tvoid run(const G &g, bool directed = false){",
+            "\t\tvector<vector<T>> adjm(n, vector<T>(n, numeric_limits<T>::max() / 2));",
+            "\t\tfor(auto u = 0; u < n; ++ u) adjm[u][u] = 0;",
+            "\t\tfor(auto [u, v, w]: g.edge){",
+            "\t\t\tadjm[u][v] = min<T>(adjm[u][v], w);",
+            "\t\t\tif(!directed) adjm[v][u] = adjm[u][v];",
+            "\t\t}",
+            "\t\trun(adjm);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

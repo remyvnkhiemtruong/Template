@@ -1,0 +1,34 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_3_cycles",
+        "body": [
+            "// https://i11www.iti.kit.edu/extra/publications/sw-fclt-05_t.pdf",
+            "// O(n + m * sqrt(m)) process() calls for graphs without loop or multiedges",
+            "void find_3_cycles(int n, const vector<array<int, 2>> &edge, auto process){",
+            "\tint m = (int)edge.size();",
+            "\tvector<int> deg(n), order, pos(n);",
+            "\tvector<vector<int>> appear(m + 1), adj(n), found(n);",
+            "\tfor(auto [u, v]: edge) ++ deg[u], ++ deg[v];",
+            "\tfor(auto u = 0; u < n; ++ u) appear[deg[u]].push_back(u);",
+            "\tfor(auto d = m; d >= 0; -- d) order.insert(order.end(), appear[d].begin(), appear[d].end());",
+            "\tfor(auto i = 0; i < n; ++ i) pos[order[i]] = i;",
+            "\tfor(auto i = 0; i < m; ++ i){",
+            "\t\tint u = pos[edge[i][0]], v = pos[edge[i][1]];",
+            "\t\tadj[u].push_back(v), adj[v].push_back(u);",
+            "\t}",
+            "\tfor(auto u = 0; u < n; ++ u) for(auto v: adj[u]) if(u < v){",
+            "\t\tfor(auto i = 0, j = 0; i < (int)found[u].size() && j < (int)found[v].size(); ){",
+            "\t\t\tif(found[u][i] == found[v][j]){",
+            "\t\t\t\tprocess(order[u], order[v], order[found[u][i]]);",
+            "\t\t\t\t++ i, ++ j;",
+            "\t\t\t}",
+            "\t\t\telse if(found[u][i] < found[v][j]) ++ i;",
+            "\t\t\telse ++ j;",
+            "\t\t}",
+            "\t\tfound[v].push_back(u);",
+            "\t}",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "mod_sqrt",
+        "body": [
+            "// Returns sol to x^2=a mod p",
+            "// O(log(p)^2) worst case, O(log(p)) for most p",
+            "// Requires modular",
+            "template<class T>",
+            "optional<T> mod_sqrt(T a){",
+            "\tint p = T().mod();",
+            "\tif(a == 0) return 0;",
+            "\tif((a.power((p - 1) / 2)) != 1) return {};",
+            "\tif(p % 4 == 3) return a.power((p + 1) / 4);",
+            "\t// a^(n+3)/8 or 2^(n+3)/8 * 2^(n-1)/4 works if p % 8 == 5",
+            "\tint s = p - 1, r = 0, m;",
+            "\twhile(s % 2 == 0) ++ r, s /= 2;",
+            "\tT n = 2;",
+            "\twhile(n.power((p - 1) / 2) != p - 1) ++ n;",
+            "\tT x = a.power((s + 1) / 2), b = a.power(s), g = n.power(s);",
+            "\tfor( ; ; r = m){",
+            "\t\tT t = b;",
+            "\t\tfor(m = 0; m < r && t != 1; ++ m) t *= t;",
+            "\t\tif(m == 0) return x;",
+            "\t\tT gs = g.power(1LL << r - m - 1);",
+            "\t\tg = gs * gs, x = x * gs, b = b * g;",
+            "\t}",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

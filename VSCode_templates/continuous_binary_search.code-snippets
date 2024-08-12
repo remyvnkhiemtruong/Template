@@ -1,0 +1,20 @@
+{
+    "tranxuanbach": {
+        "prefix": "continuous_binary_search",
+        "body": [
+            "// pred(x) is [T...T][F...F] for [low, high]",
+            "// Returns the point where pred changes",
+            "// O(iter)",
+            "template<int iter = 100>",
+            "double continuous_binary_search(double low, double high, auto pred){",
+            "\tassert(low <= high);",
+            "\tfor(auto rep = 0; rep < iter; ++ rep){",
+            "\t\tdouble mid = (low + high) / 2;",
+            "\t\tpred(mid) ? low = mid : high = mid;",
+            "\t}",
+            "\treturn (low + high) / 2;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "tranxuanbach": {
+        "prefix": "maximum_antichain",
+        "body": [
+            "// g must be a DAG.",
+            "// Requires graph, maximum_bipartite_matching_solver, and hopcroft_karp_algorithm",
+            "template<class T>",
+            "vector<int> maximum_antichain(const graph<T> &g){",
+            "\tint n = g.n;",
+            "\thopcroft_karp_algorithm hk(n, n);",
+            "\tfor(auto id = 0; id < (int)g.edge.size(); ++ id){",
+            "\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\tauto &e = g.edge[id];",
+            "\t\thk.insert(e.from, e.to);",
+            "\t}",
+            "\tauto [size_vc, vcL, vcR] = hk.minimum_vertex_cover();",
+            "\tvector<int> antichain;",
+            "\tfor(auto u = 0, i = 0, j = 0; u < n; ++ u){",
+            "\t\twhile(i < (int)vcL.size() && vcL[i] < u) ++ i;",
+            "\t\twhile(j < (int)vcR.size() && vcR[j] < u) ++ j;",
+            "\t\tif((i == (int)vcL.size() || u < vcL[i]) && (j == (int)vcR.size() || u < vcR[j])) antichain.push_back(u);",
+            "\t}",
+            "\treturn antichain;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

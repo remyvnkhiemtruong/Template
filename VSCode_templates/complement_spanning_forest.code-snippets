@@ -1,0 +1,30 @@
+{
+    "tranxuanbach": {
+        "prefix": "complement_spanning_forest",
+        "body": [
+            "// O(|V| + |E| log |V|)",
+            "template<class T>",
+            "vector<array<int, 2>> complement_spanning_forest(const graph<T> &g){",
+            "\tint n = g.n;",
+            "\tauto adj = g.get_adjacency_list();",
+            "\tfor(auto &a: adj) sort(a.begin(), a.end());",
+            "\tset<int> alive;",
+            "\tfor(auto u = 0; u < n; ++ u) alive.insert(u);",
+            "\tvector<array<int, 2>> res;",
+            "\twhile(!alive.empty()){",
+            "\t\tint u = *alive.begin(); alive.erase(alive.begin());",
+            "\t\tdeque<int> dq{u};",
+            "\t\twhile(!dq.empty()){",
+            "\t\t\tint v = dq.front(); dq.pop_front();",
+            "\t\t\tfor(auto it = alive.begin(); it != alive.end(); ){",
+            "\t\t\t\tif(auto it2 = lower_bound(adj[v].begin(), adj[v].end(), *it); it2 != adj[v].end() && *it2 == *it) ++ it;",
+            "\t\t\t\telse dq.push_back(*it), res.push_back({u, *it}), it = alive.erase(it);",
+            "\t\t\t}",
+            "\t\t}",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

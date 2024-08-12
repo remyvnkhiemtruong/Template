@@ -1,0 +1,38 @@
+{
+    "tranxuanbach": {
+        "prefix": "RSK_mapping",
+        "body": [
+            "// Source: https://codeforces.com/blog/entry/98167",
+            "// Returns the Robinson-Schensted-Knuth mapping of p",
+            "// p must be a permutation",
+            "// O(n^2)",
+            "array<vector<vector<int>>, 2> RSK_mapping(const vector<int> &p){",
+            "\tint n = (int)p.size();",
+            "\t{ // Check if p is a permutation",
+            "\t\tvector<int> flag(n);",
+            "\t\tfor(auto x: p){",
+            "\t\t\tassert(0 <= x && x < n && !flag[x]);",
+            "\t\t\tflag[x] = true;",
+            "\t\t}",
+            "\t}",
+            "\tvector<vector<int>> s, t;",
+            "\tfor(auto ind = 0; ind < n; ++ ind){",
+            "\t\tint x = p[ind];",
+            "\t\tbool found = false;",
+            "\t\tfor(auto i = 0; i < (int)s.size(); ++ i){",
+            "\t\t\tint j = upper_bound(s[i].begin(), s[i].end(), x) - s[i].begin();",
+            "\t\t\tif(j == (int)s[i].size()){",
+            "\t\t\t\ts[i].push_back(x), t[i].push_back(ind);",
+            "\t\t\t\tfound = true;",
+            "\t\t\t\tbreak;",
+            "\t\t\t}",
+            "\t\t\tswap(s[i][j], x);",
+            "\t\t}",
+            "\t\tif(!found) s.emplace_back(vector<int>{x}), t.emplace_back(vector<int>{ind});",
+            "\t}",
+            "\treturn {s, t};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

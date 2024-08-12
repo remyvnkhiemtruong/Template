@@ -1,0 +1,16 @@
+{
+    "tranxuanbach": {
+        "prefix": "raw_read_graph",
+        "body": [
+            "int n, m;",
+            "cin >> n >> m;",
+            "vector<vector<int>> adj(n);",
+            "for(auto i = 0; i < m; ++ i){",
+            "\tint u, v;",
+            "\tcin >> u >> v, -- u, -- v;",
+            "\tadj[u].push_back(v), adj[v].push_back(u);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

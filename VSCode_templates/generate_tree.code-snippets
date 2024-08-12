@@ -1,0 +1,33 @@
+{
+    "tranxuanbach": {
+        "prefix": "generate_tree",
+        "body": [
+            "vector<array<int, 2>> generate_tree(auto &&rng, int n){",
+            "\tvector<array<int, 2>> res;",
+            "\tif(n <= 3 || rng() & 1){",
+            "\t\tvector<int> label(n);",
+            "\t\tiota(label.begin(), label.end(), 0);",
+            "\t\tshuffle(label.begin(), label.end(), rng);",
+            "\t\tfor(auto u = 1; u < n; ++ u) res.push_back({label[rng() % u], label[u]});",
+            "\t\tshuffle(res.begin(), res.end(), rng);",
+            "\t}",
+            "\telse{",
+            "\t\tvector<int> prufer(n - 2), deg(n, 1);",
+            "\t\tfor(auto &u: prufer) ++ deg[u = rng() % n];",
+            "\t\tint leaf = find(deg.begin(), deg.end(), 1) - deg.begin(), u = leaf;",
+            "\t\tfor(auto v: prufer){",
+            "\t\t\tres.push_back({min(leaf, v), max(leaf, v)});",
+            "\t\t\tif(-- deg[v] == 1 && v < u) leaf = v;",
+            "\t\t\telse{",
+            "\t\t\t\tu = find(deg.begin() + u + 1, deg.end(), 1) - deg.begin();",
+            "\t\t\t\tleaf = u;",
+            "\t\t\t}",
+            "\t\t}",
+            "\t\tres.push_back({leaf, n - 1});",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

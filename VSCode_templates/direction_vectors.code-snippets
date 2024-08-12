@@ -1,0 +1,22 @@
+{
+    "tranxuanbach": {
+        "prefix": "direction_vectors",
+        "body": [
+            "namespace direction_vectors{",
+            "\tvector<array<int, 2>> dr2{{1, 0}, {0, 1}};",
+            "\tvector<array<int, 2>> dr4{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};",
+            "\tvector<array<int, 2>> dr4diag{{1, 1}, {-1, 1}, {-1, -1}, {1, -1}};",
+            "\tvector<array<int, 2>> dr8{{1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}};",
+            "\tvector<array<int, 2>> drk{{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}};",
+            "\tvector<array<int, 2>> generate(int low, int high){",
+            "\t\tassert(0 <= low && low <= high);",
+            "\t\tint th = sqrt(high) + 1;",
+            "\t\tvector<array<int, 2>> dr;",
+            "\t\tfor(auto x = -th; x <= th; ++ x) for(auto y = -th; y <= th; ++ y) if(auto d = x * x + y * y; low <= d && d <= high) dr.push_back({x, y});",
+            "\t\treturn dr;",
+            "\t}",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

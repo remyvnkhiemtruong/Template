@@ -1,0 +1,28 @@
+{
+    "tranxuanbach": {
+        "prefix": "initialize",
+        "body": [
+            "// #pragma GCC optimize(\"O3,unroll-loops\")",
+            "#include <bits/stdc++.h>",
+            "// #include <x86intrin.h>",
+            "using namespace std;",
+            "#if __cplusplus >= 202002L",
+            "using namespace numbers;",
+            "#endif",
+            "",
+            "",
+            "",
+            "int main(){",
+            "\tcin.tie(0)->sync_with_stdio(0);",
+            "\tcin.exceptions(ios::badbit | ios::failbit);",
+            "\t$0",
+            "\treturn 0;",
+            "}",
+            "",
+            "/*",
+            "",
+            "*/"
+        ],
+        "description": "tranxuanbach"
+    }
+}

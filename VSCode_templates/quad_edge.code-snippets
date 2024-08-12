@@ -1,0 +1,34 @@
+{
+    "tranxuanbach": {
+        "prefix": "quad_edge",
+        "body": [
+            "// http://www.sccg.sk/~samuelcik/dgs/quad_edge.pdf",
+            "struct quad_edge{",
+            "\tint o = -1; // origin of the arc",
+            "\tquad_edge *onext, *rot;",
+            "\tbool mark = false;",
+            "\tquad_edge(){ }",
+            "\tquad_edge(int o): o(o){ }",
+            "\tint d(){ return sym()->o; } // destination of the arc",
+            "\tquad_edge *sym(){ return rot->rot; }",
+            "\tquad_edge *oprev(){ return rot->onext->rot; }",
+            "\tquad_edge *lnext(){ return sym()->oprev(); }",
+            "\tstatic quad_edge *make_sphere(int a, int b){",
+            "\t\tarray<quad_edge *, 4> q{{new quad_edge{a}, new quad_edge{}, new quad_edge{b}, new quad_edge{}}};",
+            "\t\tfor(auto i = 0; i < 4; ++ i) q[i]->onext = q[-i & 3], q[i]->rot = q[i + 1 & 3];",
+            "\t\treturn q[0];",
+            "\t}",
+            "\tstatic void splice(quad_edge *a, quad_edge *b){",
+            "\t\tswap(a->onext->rot->onext, b->onext->rot->onext);",
+            "\t\tswap(a->onext, b->onext);",
+            "\t}",
+            "\tstatic quad_edge *connect(quad_edge *a, quad_edge *b){",
+            "\t\tquad_edge *q = make_sphere(a->d(), b->o);",
+            "\t\tsplice(q, a->lnext()), splice(q->sym(), b);",
+            "\t\treturn q;",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

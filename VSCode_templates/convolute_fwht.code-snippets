@@ -1,0 +1,19 @@
+{
+    "tranxuanbach": {
+        "prefix": "convolute_fwht",
+        "body": [
+            "// O(n * log(n))",
+            "template<class T, char Conv = '^'>",
+            "vector<T> convolute_fwht(vector<T> p, vector<T> q){",
+            "\tint n = (int)p.size();",
+            "\tassert(p.size() == q.size() && __builtin_popcount(n) == 1);",
+            "\tfast_walsh_hadamard_transform<T, Conv>(p);",
+            "\tfast_walsh_hadamard_transform<T, Conv>(q);",
+            "\tfor(auto i = 0; i < n; ++ i) p[i] *= q[i];",
+            "\tfast_walsh_hadamard_transform<T, Conv>(p, true);",
+            "\treturn p;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

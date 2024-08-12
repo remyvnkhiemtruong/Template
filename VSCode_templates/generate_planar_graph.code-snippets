@@ -1,0 +1,32 @@
+{
+    "tranxuanbach": {
+        "prefix": "generate_planar_graph",
+        "body": [
+            "// Requires point, line, and line_intersection",
+            "pair<vector<array<int, 2>>, vector<pointll>> generate_planar_graph(auto &&rng, int n, int m_max, int max_c = 1000000000){",
+            "\tassert(0 <= n);",
+            "\tvector<pointll> embedding(n);",
+            "\tfor(auto u = 0; u < n; ++ u){",
+            "\t\tembedding[u].x = rng() % (max_c + 1);",
+            "\t\tembedding[u].y = rng() % (max_c + 1);",
+            "\t}",
+            "\tvector<array<int, 2>> edge;",
+            "\tfor(auto rep = m_max; n && rep; -- rep){",
+            "\t\tint u = rng() % (n - 1), v = rng() % (n - 1 - u) + u + 1;",
+            "\t\tlinell L(embedding[u], embedding[v]);",
+            "\t\tbool fail = false;",
+            "\t\tfor(auto [w, x]: edge){",
+            "\t\t\tlinell M(embedding[w], embedding[x]);",
+            "\t\t\tif(intersect_closed_segments(L, M)){",
+            "\t\t\t\tfail = true;",
+            "\t\t\t\tbreak;",
+            "\t\t\t}",
+            "\t\t}",
+            "\t\tif(!fail) edge.push_back({u, v});",
+            "\t}",
+            "\treturn {edge, embedding};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

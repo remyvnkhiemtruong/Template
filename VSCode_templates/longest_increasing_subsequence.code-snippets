@@ -1,0 +1,27 @@
+{
+    "tranxuanbach": {
+        "prefix": "longest_increasing_subsequence",
+        "body": [
+            "template<class T>",
+            "vector<int> longest_increasing_subsequence(const vector<T> &a){ // O(n log n), returns the indices",
+            "\tint n = int(a.size());",
+            "\tif(!n) return {};",
+            "\tvector<int> prev(n);",
+            "\ttypedef pair<T, int> p;",
+            "\tvector<p> active;",
+            "\tfor(int i = 0; i < n; ++ i){",
+            "\t\t// change 0 -> i for longest non-decreasing subsequence",
+            "\t\tauto it = lower_bound(active.begin(), active.end(), p{a[i], 0});",
+            "\t\tif(it == active.end()) active.emplace_back(), it = prev(active.end());",
+            "\t\t*it = {a[i], i};",
+            "\t\tprev[i] = it == active.begin() ? 0 : prev(it)->second;",
+            "\t}",
+            "\tint L = int(active.size()), cur = active.back().second;",
+            "\tvector<int> res(L);",
+            "\twhile(L --) res[L] = cur, cur = prev[cur];",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

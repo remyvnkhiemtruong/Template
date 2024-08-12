@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "convolute_subset",
+        "body": [
+            "// (f*g)[mask] = sum{x and y = 0, x or y = mask}(f(x)g(y))",
+            "// O(n * log(n)^2)",
+            "template<class T, int SZ = 20>",
+            "vector<T> convolute_subset(const vector<T> &p, const vector<T> &q){",
+            "\tint n = (int)p.size();",
+            "\tassert((int)q.size() == n && __builtin_popcount(n) == 1);",
+            "\tint w = __lg(n);",
+            "\tassert(w <= SZ);",
+            "\tvector<array<T, SZ>> x(n), y(n);",
+            "\tfor(auto i = 0; i < n - 1; ++ i) x[i][__builtin_popcount(i)] = p[i];",
+            "\tfor(auto k = 0; k < w; ++ k) for(auto i = 0; i < n; ++ i) if(~i >> k & 1) for(auto j = 0; j < w; ++ j) x[i | 1 << k][j] += x[i][j];",
+            "\tfor(auto i = 0; i < n - 1; ++ i) y[i][__builtin_popcount(i)] = q[i];",
+            "\tfor(auto k = 0; k < w; ++ k) for(auto i = 0; i < n; ++ i) if(~i >> k & 1) for(auto j = 0; j < w; ++ j) y[i | 1 << k][j] += y[i][j];",
+            "\tfor(auto i = 0; i < n; ++ i) for(auto j = w - 1; j >= 0; -- j){",
+            "\t\tfor(auto k = 1; k < w - j; ++ k) x[i][j + k] += x[i][j] * y[i][k];",
+            "\t\tx[i][j] *= y[i][0];",
+            "\t}",
+            "\tfor(auto k = 0; k < w; ++ k) for(auto i = 0; i < n; ++ i) if(~i >> k & 1) for(auto j = 0; j < w; ++ j) x[i | 1 << k][j] -= x[i][j];",
+            "\tvector<T> res(n);",
+            "\tfor(auto i = 0; i < n - 1; ++ i) res[i] = x[i][__builtin_popcount(i)];",
+            "\tfor(auto i = 0; i < n; ++ i) res[n - 1] += p[i] * q[n - 1 - i];",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

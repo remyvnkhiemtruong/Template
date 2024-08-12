@@ -1,0 +1,14 @@
+{
+    "tranxuanbach": {
+        "prefix": "kadane",
+        "body": [
+            "template<class T> // O(n)",
+            "auto kadane(const vector<T> &a, T init = 0){",
+            "\tT lm = init, gm = init;",
+            "\tfor(auto x: a) lm = max(x, x + lm), gm = max(gm, lm);",
+            "\treturn gm;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

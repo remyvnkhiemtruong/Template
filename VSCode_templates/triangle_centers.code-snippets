@@ -1,0 +1,38 @@
+{
+    "tranxuanbach": {
+        "prefix": "triangle_centers",
+        "body": [
+            "// Requires point",
+            "#define T double",
+            "#define POINTS const point<T> &p, const point<T> &q, const point<T> &r",
+            "point<T> weighted_mean(POINTS, T a = 0.5, T b = 0.5, T c = 0.5){",
+            "\treturn (a * p + b * q + c * r) / (a + b + c);",
+            "}",
+            "point<T> circumcenter(POINTS){",
+            "\tpoint<T> a = r - p, b = q - p;",
+            "\treturn p + (a * b.squared_norm() - b * a.squared_norm()).perp() / (2 * a ^ b);",
+            "}",
+            "T circumradius(POINTS){",
+            "\treturn (p - q).norm() * (q - r).norm() * (r - p).norm() / (2 * doubled_signed_area(p, q, r));",
+            "}",
+            "point<T> incenter(POINTS){",
+            "\treturn weighted_mean(p, q, r, (q - r).norm(), (r - p).norm(), (p - q).norm());",
+            "}",
+            "T inradius(POINTS){",
+            "\treturn doubled_signed_area(p, q, r) / ((p - q).norm() + (q - r).norm() + (r - p).norm());",
+            "}",
+            "point<T> orthocenter(POINTS){",
+            "\treturn weighted_mean(p, q, r, (q - p ^ r - p) / ((q - p) * (r - p)), (r - q ^ p - q) / ((r - q) * (p - q)), (p - r ^ q - r) / ((p - r) * (q - r)));",
+            "}",
+            "template<int i> point<T> excenter(POINTS){",
+            "\treturn weighted_mean(p, q, r, (i == 0 ? -1 : 1) * (q - r).norm(), (i == 1 ? -1 : 1) * (r - p).norm(), (i == 2 ? -1 : 1) * (p - q).norm());",
+            "}",
+            "template<int i> T exradius(POINTS){",
+            "\treturn doubled_signed_area(p, q, r) / ((i == 0 ? -1 : 1) * (p - q).norm() + (i == 1 ? -1 : 1) * (q - r).norm() + (i == 2 ? -1 : 1) * (r - p).norm());",
+            "}",
+            "#undef POINTS",
+            "#undef T"
+        ],
+        "description": "tranxuanbach"
+    }
+}

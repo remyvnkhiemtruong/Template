@@ -1,0 +1,36 @@
+{
+    "tranxuanbach": {
+        "prefix": "minimum_spanning_forest",
+        "body": [
+            "// Requires disjoint_set",
+            "template<class G>",
+            "vector<int> minimum_spanning_forest(const G &g){",
+            "\tvector<int> order(g.edge.size());",
+            "\tiota(order.begin(), order.end(), 0);",
+            "\tif(g.ignore) order.erase(remove_if(order.begin(), order.end(), [&](int id){ return g.ignore(id); }), order.end());",
+            "\tsort(order.begin(), order.end(), [&](int i, int j){ return g.edge[i].cost < g.edge[j].cost; });",
+            "\tdisjoint_set dsu(g.n);",
+            "\tvector<int> res;",
+            "\tfor(auto id: order){",
+            "\t\tauto &e = g.edge[id];",
+            "\t\tif(dsu.merge(e.from, e.to)) res.push_back(id);",
+            "\t}",
+            "\treturn res;",
+            "}",
+            "template<class T>",
+            "vector<int> minimum_spanning_forest(int n, const vector<tuple<int, int, T>> &edge){",
+            "\tvector<int> order(edge.size());",
+            "\tiota(order.begin(), order.end(), 0);",
+            "\tsort(order.begin(), order.end(), [&](int i, int j){ return get<2>(edge[i]) < get<2>(edge[j]); });",
+            "\tdisjoint_set dsu(n);",
+            "\tvector<int> res;",
+            "\tfor(auto id: order){",
+            "\t\tauto &e = edge[id];",
+            "\t\tif(dsu.merge(get<0>(e), get<1>(e))) res.push_back(id);",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

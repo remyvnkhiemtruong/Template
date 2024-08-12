@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "minimum_path_cover",
+        "body": [
+            "// g must be a DAG.",
+            "// Returns the list of path where a path is represented by the starting vertex along with the sequence of edges.",
+            "// Requires graph, maximum_bipartite_matching_solver, and hopcroft_karp_algorithm",
+            "template<class T>",
+            "vector<vector<int>> minimum_path_cover(const graph<T> &g){",
+            "\tint n = g.n;",
+            "\thopcroft_karp_algorithm hk(n, n);",
+            "\tfor(auto id = 0; id < (int)g.edge.size(); ++ id){",
+            "\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\tauto &e = g.edge[id];",
+            "\t\thk.insert(e.from, e.to);",
+            "\t}",
+            "\tint size_matching = hk.maximum_matching();",
+            "\tvector<vector<int>> path_cover;",
+            "\tfor(auto s = 0; s < n; ++ s){",
+            "\t\tif(~hk.pv[s]) continue;",
+            "\t\tvector<int> path{s};",
+            "\t\tfor(auto u = s; ~hk.pu[u]; u = hk.pu[u]) for(auto id: g.adj[u]) if(g.edge[id].to == hk.pu[u]) path.push_back(id);",
+            "\t\tpath_cover.push_back(path);",
+            "\t}",
+            "\tassert(size_matching + (int)path_cover.size() == n);",
+            "\treturn path_cover;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

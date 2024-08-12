@@ -1,0 +1,16 @@
+{
+    "tranxuanbach": {
+        "prefix": "read_wdigraph",
+        "body": [
+            "int n, m;",
+            "cin >> n >> m;",
+            "graph<int> g(n);",
+            "for(auto i = 0; i < m; ++ i){",
+            "\tint u, v, w;",
+            "\tcin >> u >> v >> w, -- u, -- v;",
+            "\tg.orient(u, v, w);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

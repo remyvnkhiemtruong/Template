@@ -1,0 +1,27 @@
+{
+    "tranxuanbach": {
+        "prefix": "mod_inv",
+        "body": [
+            "// O(log a)",
+            "template<class T>",
+            "T mod_inv(T a, T mod){",
+            "\tassert(mod >= 1);",
+            "\ta %= mod;",
+            "\tif(a < 0) a += mod;",
+            "\tassert(a);",
+            "\tT s = mod, t = a, m0 = 0, m1 = 1;",
+            "\twhile(t){",
+            "\t\tT u = s / t;",
+            "\t\ts -= t * u;",
+            "\t\tm0 -= m1 * u;  // |m1 * u| <= |m1| * s <= mod",
+            "\t\tauto tmp = s;",
+            "\t\ts = t, t = tmp, tmp = m0, m0 = m1, m1 = tmp;",
+            "\t}",
+            "\tif(m0 < 0) m0 += mod / s;",
+            "\tassert(s == 1);",
+            "\treturn m0;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

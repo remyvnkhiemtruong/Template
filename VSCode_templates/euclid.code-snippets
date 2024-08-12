@@ -1,0 +1,17 @@
+{
+    "tranxuanbach": {
+        "prefix": "euclid",
+        "body": [
+            "// Returns g=gcd(a,b), and x and y store values with ax+by=g",
+            "typedef long long ll;",
+            "ll euclid(ll a, ll b, ll &x, ll &y){",
+            "\tif(b){",
+            "\t\tll d = euclid(b, a % b, y, x);",
+            "\t\treturn y -= a / b * x, d;",
+            "\t}",
+            "\treturn x = 1, y = 0, a;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

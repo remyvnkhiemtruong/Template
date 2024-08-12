@@ -1,0 +1,30 @@
+{
+    "tranxuanbach": {
+        "prefix": "sparse_table",
+        "body": [
+            "template<class T, class F>",
+            "struct sparse_table{",
+            "\tint n;",
+            "\tvector<vector<T>> data;",
+            "\tF TT;",
+            "\tT T_id;",
+            "\tsparse_table(){ }",
+            "\t// O(n * log(n))",
+            "\tsparse_table(const vector<T> &a, F TT, T T_id): n((int)a.size()), TT(TT), T_id(T_id), data({a}){",
+            "\t\tfor(auto p = 1, i = 1; p << 1 <= n; p <<= 1, ++ i){",
+            "\t\t\tdata.emplace_back(n - (p << 1) + 1);",
+            "\t\t\tfor(auto j = 0; j < (int)data[i].size(); ++ j) data[i][j] = TT(data[i - 1][j], data[i - 1][j + p]);",
+            "\t\t}",
+            "\t}",
+            "\t// O(1)",
+            "\tT query(int l, int r) const{",
+            "\t\tassert(0 <= l && l <= r && r <= n);",
+            "\t\tif(l == r) return T_id;",
+            "\t\tint d = __lg(r - l);",
+            "\t\treturn TT(data[d][l], data[d][r - (1 << d)]);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

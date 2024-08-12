@@ -1,0 +1,23 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_a_furthest_pair_Linf",
+        "body": [
+            "// Returns the pair of squared distance and pair of point indices",
+            "// O(n)",
+            "// Requires point",
+            "template<class T>",
+            "pair<T, pair<int, int>> find_a_furthest_pair_Linf(const vector<point<T>> &a){",
+            "\tT imin = min_element(a.begin(), a.end()) - a.begin();",
+            "\tT imax = max_element(a.begin(), a.end()) - a.begin();",
+            "\tauto cmp_y = [&](auto p, auto q)->bool{ return p.y < q.y; };",
+            "\tT jmin = min_element(a.begin(), a.end(), cmp_y) - a.begin();",
+            "\tT jmax = max_element(a.begin(), a.end(), cmp_y) - a.begin();",
+            "\treturn max(",
+            "\t\tpair{a[imax].x - a[imin].x, pair{imin, imax}},",
+            "\t\tpair{a[jmax].y - a[jmin].y, pair{jmin, jmax}}",
+            "\t);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

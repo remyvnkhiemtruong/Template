@@ -1,0 +1,30 @@
+{
+    "tranxuanbach": {
+        "prefix": "longest_monotone_subsequence",
+        "body": [
+            "// Returns the indices",
+            "// O(n * log(n))",
+            "template<class T, class Compare = less<>>",
+            "vector<int> longest_monotone_subsequence(const vector<T> &a, Compare cmp = less<>()){",
+            "\t// less: longest increasing subsequence",
+            "\t// less_equal: longest non-decreasing subsequence",
+            "\t// greater: longest decreasing subsequence",
+            "\t// greater_equal: longest non-increasing subsequence",
+            "\tif(a.empty()) return {};",
+            "\tint n = (int)a.size();",
+            "\tvector<int> prev(n), active;",
+            "\tfor(auto i = 0; i < n; ++ i){",
+            "\t\tauto it = partition_point(active.begin(), active.end(), [&](int j){ return cmp(a[j], a[i]); });",
+            "\t\tif(it == active.end()) active.emplace_back(), it = std::prev(active.end());",
+            "\t\t*it = i;",
+            "\t\tprev[i] = it == active.begin() ? -1 : *std::prev(it);",
+            "\t}",
+            "\tint len = (int)active.size(), cur = active.back();",
+            "\tvector<int> res(len);",
+            "\twhile(len --) res[len] = cur, cur = prev[cur];",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "tranxuanbach": {
+        "prefix": "gomory_hu",
+        "body": [
+            "// Returns a tree T where for all s!=t, min s-t cut of g equals the min weight of edges in the s-t path in T",
+            "// n - 1 dinic_maximum_flow.minimum_cut() calls",
+            "// Requires flow_network and dinic_maximum_flow",
+            "template<class T>",
+            "vector<tuple<int, int, T>> gomory_hu_tree(int n, const vector<tuple<int, int, T>> &edge){",
+            "\tflow_network<T> F(n);",
+            "\tfor(auto &[u, v, w]: edge) F.link(u, v, w);",
+            "\tvector<tuple<int, int, T>> res(max(n - 1, 0));",
+            "\tvector<int> pv(n), cut(n);",
+            "\tfor(auto i = 1; i < n; ++ i){",
+            "\t\tF.clear_flow();",
+            "\t\tauto [flow, left, right] = dinic_maximum_flow<T>(F).minimum_cut(pv[i], i);",
+            "\t\tfill(cut.begin(), cut.end(), 0);",
+            "\t\tfor(auto u: right) cut[u] = 1;",
+            "\t\tfor(auto j = i + 1; j < n; ++ j) if(cut[j] == cut[i] && pv[j] == pv[i]) pv[j] = i;",
+            "\t\tres[i - 1] = {pv[i], i, flow};",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

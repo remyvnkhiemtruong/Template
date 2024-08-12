@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "divisor",
+        "body": [
+            "template<class T>",
+            "void for_each_divisor(const vector<pair<T, int>> &fact, auto f){",
+            "\tT d = 1;",
+            "\tauto solve = [&](auto self, int i)->void{",
+            "\t\tif(i == (int)fact.size()){",
+            "\t\t\tf(d);",
+            "\t\t\treturn;",
+            "\t\t}",
+            "\t\tself(self, i + 1);",
+            "\t\tauto [p, t] = fact[i];",
+            "\t\tT pd = d;",
+            "\t\tfor(auto e = 1; e <= t; ++ e) d *= p, self(self, i + 1);",
+            "\t\td = pd;",
+            "\t};",
+            "\tsolve(solve, 0);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

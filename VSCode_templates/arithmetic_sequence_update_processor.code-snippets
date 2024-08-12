@@ -1,0 +1,36 @@
+{
+    "tranxuanbach": {
+        "prefix": "arithmetic_sequence_update_processor",
+        "body": [
+            "template<class T>",
+            "struct arithmetic_sequence_update_processor{",
+            "\tint n;",
+            "\tvector<T> data, res;",
+            "\tarithmetic_sequence_update_processor(int n): n(n), data(n + 2){ }",
+            "\t// O(n)",
+            "\tvoid clear(){",
+            "\t\tfill(data.begin(), data.end(), 0);",
+            "\t}",
+            "\t// Add start, start + step, start + step * 2, ... on [l, r)",
+            "\t// O(1)",
+            "\tvoid update(int l, int r, T start, T step){",
+            "\t\tassert(0 <= l && l <= r && r <= n);",
+            "\t\tif(l == r) return;",
+            "\t\tdata[l] += start;",
+            "\t\tdata[l + 1] -= start - step;",
+            "\t\tdata[r] -= start + (r - l) * step;",
+            "\t\tdata[r + 1] += start + (r - l - 1) * step;",
+            "\t}",
+            "\t// O(n)",
+            "\tconst vector<T> &snapshot(){",
+            "\t\tres.resize(n);",
+            "\t\tcopy(data.begin(), data.end() - 2, res.begin());",
+            "\t\tfor(auto i = 1; i < n; ++ i) res[i] += res[i - 1];",
+            "\t\tfor(auto i = 1; i < n; ++ i) res[i] += res[i - 1];",
+            "\t\treturn res;",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

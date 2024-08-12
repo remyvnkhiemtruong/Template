@@ -1,0 +1,38 @@
+{
+    "tranxuanbach": {
+        "prefix": "polygon_cut",
+        "body": [
+            "// Returns the polygon on the left of line p->q",
+            "// Requires point",
+            "template<class T>",
+            "vector<point<double>> polygon_cut(const vector<point<T>> &a, const point<T> &p, const point<T> &q){",
+            "\tvector<point<double>> res;",
+            "\tauto d = q - p;",
+            "\tfor(auto i = 0; i < (int)a.size(); ++ i){",
+            "\t\tauto cur = a[i], prev = i ? a[i - 1] : a.back();",
+            "\t\tbool side = doubled_signed_area(p, q, cur) > 0;",
+            "\t\tif(side != (doubled_signed_area(p, q, prev) > 0)){",
+            "\t\t\tres.push_back(point<double>(p) + 1.0 * (cur - p ^ prev - cur) / (d ^ prev - cur) * point<double>(d));",
+            "\t\t}",
+            "\t\tif(side) res.push_back(cur);",
+            "\t}",
+            "\treturn res;",
+            "}",
+            "template<class T>",
+            "vector<point<long double>> polygon_cutl(const vector<point<T>> &a, const point<T> &p, const point<T> &q){",
+            "\tvector<point<long double>> res;",
+            "\tauto d = q - p;",
+            "\tfor(auto i = 0; i < (int)a.size(); ++ i){",
+            "\t\tauto cur = a[i], prev = i ? a[i - 1] : a.back();",
+            "\t\tbool side = doubled_signed_area(p, q, cur) > 0;",
+            "\t\tif(side != (doubled_signed_area(p, q, prev) > 0)){",
+            "\t\t\tres.push_back(point<long double>(p) + 1.0l * (cur - p ^ prev - cur) / (d ^ prev - cur) * point<long double>(d));",
+            "\t\t}",
+            "\t\tif(side) res.push_back(cur);",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

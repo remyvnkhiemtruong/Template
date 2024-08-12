@@ -1,0 +1,37 @@
+{
+    "tranxuanbach": {
+        "prefix": "count_cliques",
+        "body": [
+            "// Returns the number of cliques.",
+            "// O(2^(n/2) * n + m)",
+            "long long count_cliques(const vector<unsigned long long> &adjm){",
+            "\tint n = (int)adjm.size();",
+            "\tassert(n <= 64);",
+            "\tif(n <= 1) return n;",
+            "\tint nl = n >> 1, nr = n - nl;",
+            "\tstatic vector<int> sum;",
+            "\tsum.assign(1u << nr, 0);",
+            "\tsum[0] = 1;",
+            "\tstatic vector<unsigned long long> adjmask;",
+            "\tadjmask.resize(1u << nr);",
+            "\tadjmask[0] = (1u << nr) - 1;",
+            "\tfor(auto mask = 1u; mask < 1u << nr; ++ mask){",
+            "\t\tint u = __builtin_ctz(mask);",
+            "\t\tadjmask[mask] = adjmask[mask ^ 1u << u] & (adjm[nl + u] >> nl | 1u << u);",
+            "\t\tif((adjmask[mask] & mask) == mask) sum[mask] = 1;",
+            "\t}",
+            "\tfor(auto u = 0; u < nr; ++ u) for(auto mask = 0; mask < 1u << nr; ++ mask) if(mask & 1u << u) sum[mask] += sum[mask ^ 1u << u];",
+            "\tadjmask.resize(1u << nl);",
+            "\tadjmask[0] = (1ull << n) - 1;",
+            "\tlong long res = sum.back() - 1;",
+            "\tfor(auto mask = 1u; mask < 1u << nl; ++ mask){",
+            "\t\tint u = __builtin_ctz(mask);",
+            "\t\tadjmask[mask] = adjmask[mask ^ 1u << u] & (adjm[u] | 1u << u);",
+            "\t\tif((adjmask[mask] & mask) == mask) res += sum[adjmask[mask] >> nl];",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

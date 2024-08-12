@@ -1,0 +1,23 @@
+{
+    "tranxuanbach": {
+        "prefix": "exponential_set_power_series",
+        "body": [
+            "// Implementation of https://codeforces.com/blog/entry/92183",
+            "// O(n * log(n)^2)",
+            "// Requires convolute_subset",
+            "template<class T, int SZ = 20>",
+            "vector<T> exponential_set_power_series(const vector<T> &p){",
+            "\tint n = (int)p.size();",
+            "\tassert(__builtin_popcount(n) == 1 && p[0] == 0);",
+            "\tint w = __lg(n);",
+            "\tvector<T> res{1};",
+            "\tfor(auto bit = 0; bit < w; ++ bit){",
+            "\t\tauto shift = convolute_subset<T, SZ>(res, vector<T>(p.begin() + (1 << bit), p.begin() + (1 << bit + 1)));",
+            "\t\tres.insert(res.end(), shift.begin(), shift.end());",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

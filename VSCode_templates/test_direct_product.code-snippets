@@ -1,0 +1,34 @@
+{
+    "tranxuanbach": {
+        "prefix": "test_direct_product",
+        "body": [
+            "// Requires test_closedness and test_normal_subgroup",
+            "bool test_direct_product(int n, auto op, const vector<vector<int>> &f){",
+            "\tint size = 1;",
+            "\tfor(const auto &s: f){",
+            "\t\tif(__builtin_mul_overflow_p(size, (int)s.size(), 0)) return false;",
+            "\t\tsize *= (int)s.size();",
+            "\t}",
+            "\tif(n != size) return false;",
+            "\tif(n == 1) return true;",
+            "\tfor(const auto &s: f) if(!test_normal_subgroup(n, op, s)) return false;",
+            "\tvector<int> flag(n);",
+            "\tfor(auto x: f[0]){",
+            "\t\tauto recurse = [&](auto self, int i, int x)->void{",
+            "\t\t\tif(i == (int)f.size()){",
+            "\t\t\t\tflag[x] = true;",
+            "\t\t\t\treturn;",
+            "\t\t\t}",
+            "\t\t\tfor(auto y: f[i]) self(self, i + 1, op(x, y));",
+            "\t\t};",
+            "\t\trecurse(recurse, 1, x);",
+            "\t}",
+            "\treturn all_of(flag.begin(), flag.end(), [&](int x){ return x; });",
+            "}",
+            "bool test_direct_product(const vector<vector<int>> &g, const vector<vector<int>> &f){",
+            "\treturn test_direct_product((int)g.size(), [&](int x, int y){ return g[x][y]; }, f);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "tranxuanbach": {
+        "prefix": "hungarian_min_cost_bipartite_matching",
+        "body": [
+            "template<class T> // reads adjacency matrix of the graph",
+            "pair<T, vector<int>> hungarian_min_cost_bipartite_matching(const vector<vector<T>> &adjm){",
+            "\tif(adjm.empty()) return {0, {}};",
+            "\tint n = (int)adjm.size() + 1, m = (int)adjm[0].size() + 1;",
+            "\tvector<T> u(n), v(m);",
+            "\tvector<int> p(m), res(n - 1, -1);",
+            "\tfor(int i = 1; i < n; ++ i){",
+            "\t\tp[0] = i;",
+            "\t\tint j0 = 0; // add \"dummy\" worker 0",
+            "\t\tvector<T> dist(m, numeric_limits<T>::max());",
+            "\t\tvector<int> pre(m, -1);",
+            "\t\tvector<bool> done(m + 1);",
+            "\t\tdo{// dijkstra",
+            "\t\t\tdone[j0] = true;",
+            "\t\t\tint i0 = p[j0], j1;",
+            "\t\t\tlong long delta = numeric_limits<long long>::max();",
+            "\t\t\tfor(int j = 1; j < m; ++ j) if(!done[j]){",
+            "\t\t\t\tauto cur = adjm[i0 - 1][j - 1] - u[i0] - v[j];",
+            "\t\t\t\tif(cur < dist[j]) dist[j] = cur, pre[j] = j0;",
+            "\t\t\t\tif(dist[j] < delta) delta = dist[j], j1 = j;",
+            "\t\t\t}",
+            "\t\t\tfor(int j = 0; j < m; ++ j){",
+            "\t\t\t\tif(done[j]) u[p[j]] += delta, v[j] -= delta;",
+            "\t\t\t\telse dist[j] -= delta;",
+            "\t\t\t}",
+            "\t\t\tj0 = j1;",
+            "\t\t}while(p[j0]);",
+            "\t\twhile(j0){ // update alternating path",
+            "\t\t\tint j1 = pre[j0];",
+            "\t\t\tp[j0] = p[j1], j0 = j1;",
+            "\t\t}",
+            "\t}",
+            "\tfor(int j = 1; j < m; ++ j) if(p[j]) res[p[j] - 1] = j - 1;",
+            "\treturn {-v[0], res};",
+            "} // O(V^2 E)"
+        ],
+        "description": "tranxuanbach"
+    }
+}

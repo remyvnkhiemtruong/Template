@@ -1,0 +1,22 @@
+{
+    "tranxuanbach": {
+        "prefix": "test_closedness",
+        "body": [
+            "// Test whether the subset s if {0, ..., n-1} is closed under op",
+            "// In particular, it checks if s is a subgroup when op defines a group and s is non-empty.",
+            "bool test_closedness(int n, auto op, const vector<int> &s){",
+            "\tvector<int> in_s(n);",
+            "\tfor(auto x: s){",
+            "\t\tassert(0 <= x && x < n);",
+            "\t\tin_s[x] = true;",
+            "\t}",
+            "\tfor(auto x: s) for(auto y: s) if(!in_s[op(x, y)]) return false;",
+            "\treturn true;",
+            "}",
+            "bool test_closedness(const vector<vector<int>> &g, const vector<int> &s){",
+            "\treturn test_closedness((int)g.size(), [&](int x, int y){ return g[x][y]; }, s);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "floor_sum",
+        "body": [
+            "// Returns \\sum_{i=0}^{n-1} floor((a*i+b)/m)",
+            "// T must be able to hold the square of arguments",
+            "// O(log(min(m, a)))",
+            "template<class T, class U>",
+            "U floor_sum(T n, T m, T a, T b){",
+            "\tassert(n >= 0 && m > 0 && a >= 0 && b >= 0);",
+            "\tU res = 0;",
+            "\tauto [qa, ra] = div(a, m);",
+            "\tauto [qb, rb] = div(b, m);",
+            "\tif(T n2 = (ra * n + rb) / m){",
+            "\t\tauto prev = floor_sum<T, U>(n2, ra, m, m - rb - 1);",
+            "\t\tres += U(n - 1) * n2 - prev;",
+            "\t}",
+            "\tres += (n & 1 ? U(n - 1 >> 1) * n : U(n >> 1) * (n - 1)) * qa + U(n) * qb;",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

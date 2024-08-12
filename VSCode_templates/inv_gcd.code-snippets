@@ -1,0 +1,25 @@
+{
+    "tranxuanbach": {
+        "prefix": "inv_gcd",
+        "body": [
+            "// @param b `1 <= b`",
+            "// @return pair(g, x) s.t. g = gcd(a, b), xa = g (mod b), 0 <= x < b/g",
+            "constexpr pair<long long, long long> inv_gcd(long long a, long long b){",
+            "\ta %= b;",
+            "\tif(a < 0) a += b;",
+            "\tif(a == 0) return {b, 0};",
+            "\tlong long s = b, t = a, m0 = 0, m1 = 1;",
+            "\twhile(t){",
+            "\t\tlong long u = s / t;",
+            "\t\ts -= t * u;",
+            "\t\tm0 -= m1 * u;  // |m1 * u| <= |m1| * s <= b",
+            "\t\tauto tmp = s;",
+            "\t\ts = t, t = tmp, tmp = m0, m0 = m1, m1 = tmp;",
+            "\t}",
+            "\tif(m0 < 0) m0 += b / s;",
+            "\treturn {s, m0};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

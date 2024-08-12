@@ -1,0 +1,35 @@
+{
+    "tranxuanbach": {
+        "prefix": "RSK_inverse_mapping",
+        "body": [
+            "// Source: https://codeforces.com/blog/entry/98167",
+            "// Returns the inverse Robinson-Schensted-Knuth mapping of (s, t)",
+            "// O(n^2)",
+            "vector<int> RSK_inverse_mapping(vector<vector<int>> s, vector<vector<int>> t){",
+            "\tassert((int)s.size() == (int)t.size());",
+            "\tint n = 0;",
+            "\tfor(auto i = 0; i < (int)s.size(); ++ i){",
+            "\t\tassert((int)s[i].size() == (int)t[i].size());",
+            "\t\tn += (int)s[i].size();",
+            "\t}",
+            "\tvector<int> p(n);",
+            "\tfor(auto ind = n - 1; ind >= 0; -- ind){",
+            "\t\tint i = 0, j = 0;",
+            "\t\tfor(; i < (int)t.size(); ++ i){",
+            "\t\t\tfor(j = 0; j < (int)t[i].size() && t[i][j] != ind; ++ j){}",
+            "\t\t\tif(j < (int)t[i].size()) break;",
+            "\t\t}",
+            "\t\tint x = s[i][j];",
+            "\t\ts[i].pop_back(), t[i].pop_back();",
+            "\t\tfor(-- i; i >= 0; -- i){",
+            "\t\t\tj = upper_bound(s[i].begin(), s[i].end(), x) - s[i].begin();",
+            "\t\t\tswap(s[i][j - 1], x);",
+            "\t\t}",
+            "\t\tp[ind] = x;",
+            "\t}",
+            "\treturn p;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

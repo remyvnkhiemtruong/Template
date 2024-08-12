@@ -1,0 +1,31 @@
+{
+    "tranxuanbach": {
+        "prefix": "online_polynomial_product",
+        "body": [
+            "// Requires modular and number_theoric_transform",
+            "template<class T, class FFT = ntt>",
+            "struct online_polynomial_product{",
+            "\tconst vector<T> a;",
+            "\tvector<T> b, a_times_b;",
+            "\tonline_polynomial_product(const vector<T> &a): a(a){ }",
+            "\t// Insert value at the end of b",
+            "\t// Returns (a * b)[deg(b)]",
+            "\tT add(const T &val){",
+            "\t\tint i = (int)b.size();",
+            "\t\tb.push_back(val);",
+            "\t\tif((int)a_times_b.size() <= i) a_times_b.resize(i + 1);",
+            "\t\ta_times_b[i] += a[0] * b[i];",
+            "\t\tfor(auto z = 1; (i & z - 1) == z - 1 && (int)a.size() > z; z <<= 1){",
+            "\t\t\tvector<T> a_mul(a.begin() + z, a.begin() + min(z << 1, (int)a.size()));",
+            "\t\t\tvector<T> b_mul(b.end() - z, b.end());",
+            "\t\t\tvector<T> c_mul = FFT::convolute(a_mul, b_mul);",
+            "\t\t\tif((int)a_times_b.size() <= i + (int)c_mul.size()) a_times_b.resize(i + c_mul.size() + 1);",
+            "\t\t\tfor(auto j = 0; j < (int)c_mul.size(); ++ j) a_times_b[i + 1 + j] += c_mul[j];",
+            "\t\t}",
+            "\t\treturn a_times_b[i];",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

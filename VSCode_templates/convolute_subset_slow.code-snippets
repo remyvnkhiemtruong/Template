@@ -1,0 +1,33 @@
+{
+    "tranxuanbach": {
+        "prefix": "convolute_subset_slow",
+        "body": [
+            "// (f*g)[mask] = sum{x and y = 0, x or y = mask}(f(x)g(y))",
+            "// O(n * log(n)^2)",
+            "// Requires fast_walsh_hadamard_transform",
+            "template<class T>",
+            "vector<T> convolute_subset_slow(const vector<T> &p, const vector<T> &q){",
+            "\tint n = (int)p.size();",
+            "\tassert(q.size() == n && __builtin_popcount(n) == 1);",
+            "\tint w = __lg(n) + 1;",
+            "\tvector a(w, vector<T>(n)), b(a);",
+            "\tfor(auto i = 0; i < n; ++ i) a[__builtin_popcount(i)][i] = p[i];",
+            "\tfor(auto i = 0; i < n; ++ i) b[__builtin_popcount(i)][i] = q[i];",
+            "\tfor(auto bit = 0; bit < w; ++ bit){",
+            "\t\tfast_walsh_hadamard_transform<T, '|'>(a[bit]);",
+            "\t\tfast_walsh_hadamard_transform<T, '|'>(b[bit]);",
+            "\t}",
+            "\tvector<T> res(n);",
+            "\tfor(auto bit = 0; bit < w; ++ bit){",
+            "\t\tstatic vector<T> c;",
+            "\t\tc.assign(n, 0);",
+            "\t\tfor(auto lbit = 0; lbit <= bit; ++ lbit) for(auto i = 0; i < n; ++ i) c[i] += a[lbit][i] * b[bit - lbit][i];",
+            "\t\tfast_walsh_hadamard_transform<T, '|'>(c, true);",
+            "\t\tfor(auto i = 0; i < n; ++ i) if(__builtin_popcount(i) == bit) res[i] = c[i];",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

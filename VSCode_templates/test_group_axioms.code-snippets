@@ -1,0 +1,25 @@
+{
+    "tranxuanbach": {
+        "prefix": "test_group_axioms",
+        "body": [
+            "bool test_group_axioms(const vector<vector<int>> &g){",
+            "\tint n = (int)g.size();",
+            "\tassert(n >= 1);",
+            "\tint id = -1;",
+            "\tfor(auto x = 0; x < n; ++ x) for(auto y = 0; y < n; ++ y){",
+            "\t\tassert(0 <= g[x][y] && g[x][y] < n);",
+            "\t\tif(g[x][y] == y) id = x;",
+            "\t}",
+            "\tif(!~id) return false;",
+            "\tvector<int> inv(n, -1);",
+            "\tfor(auto x = 0; x < n; ++ x) for(auto y = 0; y < n; ++ y){",
+            "\t\tif(g[x][y] == id) inv[x] = y;",
+            "\t\tfor(auto z = 0; z < n; ++ z) if(g[x][g[y][z]] != g[g[x][y]][z]) return false;",
+            "\t}",
+            "\tif(!~*min_element(inv.begin(), inv.end())) return false;",
+            "\treturn true;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

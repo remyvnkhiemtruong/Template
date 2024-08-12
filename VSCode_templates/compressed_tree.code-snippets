@@ -1,0 +1,29 @@
+{
+    "tranxuanbach": {
+        "prefix": "compressed_tree",
+        "body": [
+            "struct compressed_tree: graph<int>{",
+            "\tint root; // arborescence rooted at root",
+            "\tvector<int> order; // dfs-order of compressed tree",
+            "\t// Build the smallest tree containing all nodes in the subset",
+            "\t// O(size(subset) * log(n))",
+            "\ttemplate<class lca_solver_t>",
+            "\tvoid compress(const lca_solver_t &ls, const vector<int> &subset){",
+            "\t\tassert(ls.n <= n);",
+            "\t\tassert(!subset.empty());",
+            "\t\tfor(auto u: order) adj[u].clear();",
+            "\t\tedge.clear();",
+            "\t\torder = subset;",
+            "\t\tconst auto &p = ls.pos;",
+            "\t\tauto cmp = [&](int u, int v){ return p[u] != p[v] ? p[u] < p[v] : u < v; };",
+            "\t\tsort(order.begin(), order.end(), cmp);",
+            "\t\torder.erase(unique(order.begin(), order.end()), order.end());",
+            "\t\tfor(auto i = 1, size = (int)order.size(); i < size; ++ i) order.push_back(ls.lca(order[i - 1], order[i]));",
+            "\t\tsort(order.begin(), order.end(), cmp), order.erase(unique(order.begin(), order.end()), order.end());",
+            "\t\tfor(auto i = 1; i < (int)order.size(); ++ i) orient(ls.lca(order[i - 1], order[i]), order[i], 1);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

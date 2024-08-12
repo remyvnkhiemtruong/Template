@@ -1,0 +1,19 @@
+{
+    "tranxuanbach": {
+        "prefix": "edge_path_into_vertex_path",
+        "body": [
+            "// Requires graph",
+            "template<class T>",
+            "vector<int> edge_path_into_vertex_path(const graph<T> &g, int s, const vector<int> &edge_path){",
+            "\tvector<int> vertex_path{s};",
+            "\tfor(auto id: edge_path){",
+            "\t\tauto &e = g.edge[id];",
+            "\t\tassert(e.from == vertex_path.back() || e.to == vertex_path.back());",
+            "\t\tvertex_path.push_back(vertex_path.back() ^ e.from ^ e.to);",
+            "\t}",
+            "\treturn vertex_path;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

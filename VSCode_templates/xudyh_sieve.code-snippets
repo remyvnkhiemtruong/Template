@@ -1,0 +1,29 @@
+{
+    "tranxuanbach": {
+        "prefix": "xudyh_sieve",
+        "body": [
+            "template<class T, class F1, class F2, class F3>",
+            "struct xudyh_sieve{",
+            "\tT th; // threshold, ideally about (2(single query) ~ 5(lots of queries)) * MAXN^2/3",
+            "\tF1 pf; // prefix sum of f / precalculate it up to th",
+            "\tF2 pg; // prefix sum of g / should be easy to calculate",
+            "\tF3 pfg; // prefix sum of dirichlet convolution of f and g / should be easy to calculate",
+            "\tunordered_map<T, T> mp;",
+            "\txudyh_sieve(T th, F1 pf, F2 pg, F3 pfg): th(th), pf(pf), pg(pg), pfg(pfg){ }",
+            "\t// Calculate the preix sum of a multiplicative f up to n",
+            "\t// O(n^2/3)",
+            "\tT query(T n){",
+            "\t\tif(n <= th) return pf(n);",
+            "\t\tif(mp.count(n)) return mp[n];",
+            "\t\tT res = pfg(n);",
+            "\t\tfor(T low = 2, high = 2; low <= n; low = high + 1){",
+            "\t\t\thigh = n / (n / low);",
+            "\t\t\tres -= (pg(high) - pg(low - 1)) * query(n / low);",
+            "\t\t}",
+            "\t\treturn mp[n] = res / pg(1);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

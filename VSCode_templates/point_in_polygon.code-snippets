@@ -1,0 +1,22 @@
+{
+    "tranxuanbach": {
+        "prefix": "point_in_polygon",
+        "body": [
+            "// Requires point and line",
+            "template<class T>",
+            "bool point_in_polygon(const point<T> &p, const vector<point<T>> &poly, bool strict = true){",
+            "\tbool res = 0;",
+            "\tfor(auto i = 0, n = (int)poly.size(); i < n; ++ i){",
+            "\t\tpoint<T> q = poly[(i + 1) % n];",
+            "\t\tif constexpr(is_floating_point_v<T>){",
+            "\t\t\tif(line<T>{poly[i], q}.distance_to_segment(p) < 1e-9) return !strict;",
+            "\t\t}",
+            "\t\telse if(line<T>{poly[i], q}.on_segment(p)) return !strict;",
+            "\t\tres ^= ((p.y < poly[i].y) - (p.y < q.y)) * doubled_signed_area(p, poly[i], q) > 0;",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

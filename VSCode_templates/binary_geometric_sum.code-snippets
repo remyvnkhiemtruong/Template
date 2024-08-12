@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "binary_geometric_sum",
+        "body": [
+            "// Returns x + x * b + ... + x * b^(e-1)",
+            "// O(log(e))",
+            "template<class T, class U, class V>",
+            "T binary_geometric_sum(T x, U b, V e){",
+            "\tassert(e >= 0);",
+            "\tT res{}; // This should be the additive identity",
+            "\tfor(; e; e >>= 1){",
+            "\t\tif(e & 1){",
+            "\t\t\tres = x + res;",
+            "\t\t\tx *= b;",
+            "\t\t}",
+            "\t\tx += x * b;",
+            "\t\tb *= b;",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

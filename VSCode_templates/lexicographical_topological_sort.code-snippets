@@ -1,0 +1,33 @@
+{
+    "tranxuanbach": {
+        "prefix": "lexicographical_topological_sort",
+        "body": [
+            "// O(|V| log |V| + |E|)",
+            "template<class T>",
+            "optional<vector<int>> lexicographical_topological_sort(const graph<T> &g){",
+            "\tint n = g.n;",
+            "\tvector<int> indeg(n), res;",
+            "\tfor(int u = 0; u < n; ++ u) for(auto id: g.adj[u]){",
+            "\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\tauto &e = g.edge[id];",
+            "\t\tint v = u ^ e.from ^ e.to;",
+            "\t\t++ indeg[v];",
+            "\t}",
+            "\tpriority_queue<int, vector<int>, greater<>> q;",
+            "\tfor(int u = 0; u < n; ++ u) if (!indeg[u]) q.push(u);",
+            "\twhile(!q.empty()){",
+            "\t\tint u = q.top(); q.pop();",
+            "\t\tres.push_back(u);",
+            "\t\tfor(auto id: g.adj[u]){",
+            "\t\t\tif(g.ignore && g.ignore(id)) continue;",
+            "\t\t\tauto &e = g.edge[id];",
+            "\t\t\tint v = u ^ e.from ^ e.to;",
+            "\t\t\tif(!-- indeg[v]) q.push(v);",
+            "\t\t}",
+            "\t}",
+            "\treturn (int)res.size() == n ? optional{res} : optional<vector<int>>{};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

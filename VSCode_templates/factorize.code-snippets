@@ -1,0 +1,18 @@
+{
+    "tranxuanbach": {
+        "prefix": "factorize",
+        "body": [
+            "template<class T>",
+            "vector<pair<T, int>> factorize(T x){",
+            "\tvector<pair<T, int>> res;",
+            "\tfor(T p = 2; p * p <= x; ++ p) if(x % p == 0){",
+            "\t\tres.push_back({p, 0});",
+            "\t\twhile(x % p == 0) ++ res.back().second, x /= p;",
+            "\t}",
+            "\tif(x > 1) res.push_back({x, 1});",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

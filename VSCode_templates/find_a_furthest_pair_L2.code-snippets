@@ -1,0 +1,25 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_a_furthest_pair_L2",
+        "body": [
+            "// Returns the pair of squared distance and pair of point indices",
+            "// O(n log n)",
+            "// Requires point and convex_hull",
+            "template<class T>",
+            "pair<T, pair<int, int>> find_a_furthest_pair_L2(const vector<point<T>> &a){",
+            "\tpair<T, point<T>> res;",
+            "\tfor(auto p: (convex_hull(a) - convex_hull(a)).get_hull()) res = max(res, pair{p.squared_norm(), p});",
+            "\tvector<int> order((int)a.size());",
+            "\tiota(order.begin(), order.end(), 0);",
+            "\tsort(order.begin(), order.end(), [&](int i, int j){ return a[i] < a[j]; });",
+            "\tfor(auto i: order){",
+            "\t\tauto q = res.second + a[i];",
+            "\t\tauto it = partition_point(order.begin(), order.end(), [&](int i){ return a[i] < q; });",
+            "\t\tif(it != order.end() && a[*it] == q) return {res.first, {i, *it}};",
+            "\t}",
+            "\tassert(false);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

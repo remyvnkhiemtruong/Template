@@ -1,0 +1,22 @@
+{
+    "tranxuanbach": {
+        "prefix": "mod_log",
+        "body": [
+            "// Returns the minimum x > 0 with a^x = b",
+            "// O(sqrt(mod)) applications of hash map",
+            "// T must be of modular type",
+            "// Requires modular",
+            "template<class T>",
+            "optional<int> mod_log(T a, T b){",
+            "\tint m = T::mod(), n = sqrt(m) + 1, j = 1;",
+            "\tT e = 1, f = 1;",
+            "\tunordered_map<int, T> A;",
+            "\twhile(j <= n && (f = e *= a) != b) A[e * b] = j ++;",
+            "\tif(e == b) return j;",
+            "\tif(gcd(m, e.data) == gcd(m, b.data)) for(auto i = 2; i < n + 2; ++ i) if(A.count(e *= f)) return T(n) * i - A[e];",
+            "\treturn {};",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

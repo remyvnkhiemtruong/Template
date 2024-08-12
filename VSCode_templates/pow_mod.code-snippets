@@ -1,0 +1,18 @@
+{
+    "tranxuanbach": {
+        "prefix": "pow_mod",
+        "body": [
+            "// Requires barrett",
+            "long long pow_mod(long long x, long long n, int m){",
+            "\tassert(0 <= n && 1 <= m);",
+            "\tif(m == 1) return 0;",
+            "\tbarrett bt((unsigned int)(m));",
+            "\tunsigned int r = 1, y = x % m;",
+            "\tif(y < 0) y += m;",
+            "\tfor(; n; y = bt.mul(y, y), n >>= 1) if(n & 1) r = bt.mul(r, y);",
+            "\treturn r;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

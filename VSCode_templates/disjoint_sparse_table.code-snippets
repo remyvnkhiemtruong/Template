@@ -1,0 +1,34 @@
+{
+    "tranxuanbach": {
+        "prefix": "disjoint_sparse_table",
+        "body": [
+            "template<class T, class F>",
+            "struct disjoint_sparse_table{",
+            "\tint n, size, log;",
+            "\tvector<vector<T>> data;",
+            "\tF TT; // monoid operation (always adjacent)",
+            "\tT T_id; // monoid identity",
+            "\t// O(n * log(n)) time and space",
+            "\tdisjoint_sparse_table(const vector<T> &a, F TT, T T_id): n((int)a.size()), TT(TT), T_id(T_id){",
+            "\t\tlog = __lg(max(n - 1, 1)) + 1, size = 1 << log;",
+            "\t\tdata.assign(log + 1, vector<T>(size, T_id));",
+            "\t\tcopy(a.begin(), a.end(), data[0].begin());",
+            "\t\tfor(auto h = 1, len = 2, half = 1; len <= size; ++ h, len <<= 1, half <<= 1) for(auto m = half; m < size; m += len){",
+            "\t\t\tdata[h][m - 1] = data[0][m - 1], data[h][m] = data[0][m];",
+            "\t\t\tfor(auto i = m - 2; i >= m - half; -- i) data[h][i] = TT(data[0][i], data[h][i + 1]);",
+            "\t\t\tfor(auto i = m + 1; i < m + half; ++ i) data[h][i] = TT(data[h][i - 1], data[0][i]);",
+            "\t\t}",
+            "\t}",
+            "\t// Returns the sum of a[i] over i \\in [ql, qr)",
+            "\t// O(1)",
+            "\tT query(int ql, int qr) const{",
+            "\t\tif(ql >= qr) return T_id;",
+            "\t\tif(qr - ql == 1) return data[0][ql];",
+            "\t\tint h = __lg(ql ^ qr - 1) + 1;",
+            "\t\treturn TT(data[h][ql], data[h][qr - 1]);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

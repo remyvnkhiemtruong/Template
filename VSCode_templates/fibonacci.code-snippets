@@ -1,0 +1,29 @@
+{
+    "tranxuanbach": {
+        "prefix": "fibonacci",
+        "body": [
+            "// O(log(i))",
+            "template<class T>",
+            "T fibonacci(auto i){",
+            "\tassert(i >= 0);",
+            "\tif(i <= 10){",
+            "\t\tif(i < 2) return i;",
+            "\t\tT a = 0, b = 1;",
+            "\t\tfor(; i >= 2; -- i){",
+            "\t\t\tswap(a, b);",
+            "\t\t\tb += a;",
+            "\t\t}",
+            "\t\treturn b;",
+            "\t}",
+            "\tT a = i % 2, b = 1 - 2 * (i % 2), c = 3;",
+            "\tfor(i >>= 1; i >= 2; i >>= 1){",
+            "\t\tif(i % 2 == 0) b = a + b * c;",
+            "\t\telse a = b + a * c;",
+            "\t\tc = c * c - 2;",
+            "\t}",
+            "\treturn b + a * c;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

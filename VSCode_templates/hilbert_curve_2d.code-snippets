@@ -1,0 +1,42 @@
+{
+    "tranxuanbach": {
+        "prefix": "hilbert_curve_2d",
+        "body": [
+            "// https://en.wikipedia.org/wiki/Hilbert_curve",
+            "template<class T, class T_large>",
+            "struct hilbert_curve_2d{",
+            "\tint level;",
+            "\tT size;",
+            "\thilbert_curve_2d(int level = 0): level(level), size(T(1) << level){ }",
+            "\tvoid rotate(T size, T &x, T &y, bool rx, bool ry) const{",
+            "\t\tif(!ry){",
+            "\t\t\tif(rx) x ^= size - 1, y ^= size - 1;",
+            "\t\t\tswap(x, y);",
+            "\t\t}",
+            "\t}",
+            "\tT_large order(T x, T y) const{",
+            "\t\tassert(0 <= x && x < size && 0 <= y && y < size);",
+            "\t\tT_large d = 0;",
+            "\t\tfor(auto s = size >> 1; s; s >>= 1){",
+            "\t\t\tbool rx = x & s, ry = y & s;",
+            "\t\t\td = d << 2 | 3 * rx ^ ry;",
+            "\t\t\trotate(size, x, y, rx, ry);",
+            "\t\t}",
+            "\t\treturn d;",
+            "\t}",
+            "\tarray<T, 2> position(T_large d) const{",
+            "\t\tassert(0 <= d && d < T_large(1) * size * size);",
+            "\t\tT x = 0, y = 0;",
+            "\t\tfor(auto s = T(1); s < size; s <<= 1){",
+            "\t\t\tbool rx = (d >> 1) & 1, ry = (d ^ rx) & 1;",
+            "\t\t\trotate(s, x, y, rx, ry);",
+            "\t\t\tx += s * rx, y += s * ry;",
+            "\t\t\td >>= 2;",
+            "\t\t}",
+            "\t\treturn {x, y};",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

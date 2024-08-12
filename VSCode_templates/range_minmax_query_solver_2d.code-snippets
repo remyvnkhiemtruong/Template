@@ -1,0 +1,41 @@
+{
+    "tranxuanbach": {
+        "prefix": "range_minmax_query_solver_2d",
+        "body": [
+            "// Specialization of sparse_table_2d",
+            "// Range min query by default. Set cmp = greater for max query",
+            "template<class T, class Compare = less<>>",
+            "struct range_minmax_query_solver_2d{",
+            "\tint n, m;",
+            "\tvector<vector<vector<vector<T>>>> data;",
+            "\tCompare cmp;",
+            "\tT T_id;",
+            "\trange_minmax_query_solver_2d(){ }",
+            "\t// O(n * log(n) * m * log(m))",
+            "\trange_minmax_query_solver_2d(const vector<vector<T>> &a, Compare cmp = less<>(), T T_id = numeric_limits<T>::max()): n((int)a.size()), m((int)a[0].size()), cmp(cmp), T_id(T_id), data({{a}}){",
+            "\t\tfor(auto q = 1, j = 1; q << 1 <= m; q <<= 1, ++ j){",
+            "\t\t\tdata[0].push_back(vector<vector<T>>(n, vector<T>(m - (q << 1) + 1)));",
+            "\t\t\tfor(auto ii = 0; ii < (int)data[0][j].size(); ++ ii) for(auto jj = 0; jj < (int)data[0][j][ii].size(); ++ jj) data[0][j][ii][jj] = cmp(data[0][j - 1][ii][jj], data[0][j - 1][ii][jj + q]) ? data[0][j - 1][ii][jj] : data[0][j - 1][ii][jj + q];",
+            "\t\t}",
+            "\t\tfor(auto p = 1, i = 1; p << 1 <= n; p <<= 1, ++ i){",
+            "\t\t\tdata.push_back({vector<vector<T>>(n - (p << 1) + 1, vector<T>(m))});",
+            "\t\t\tfor(auto ii = 0; ii < (int)data[i][0].size(); ++ ii) for(auto jj = 0; jj < (int)data[i][0][ii].size(); ++ jj) data[i][0][ii][jj] = cmp(data[i - 1][0][ii][jj], data[i - 1][0][ii + p][jj]) ? data[i - 1][0][ii][jj] : data[i - 1][0][ii + p][jj];",
+            "\t\t\tfor(auto q = 1, j = 1; q << 1 <= m; q <<= 1, ++ j){",
+            "\t\t\t\tdata[i].push_back(vector<vector<T>>(n - (p << 1) + 1, vector<T>(m - (q << 1) + 1)));",
+            "\t\t\t\tfor(auto ii = 0; ii < (int)data[i][j].size(); ++ ii) for(auto jj = 0; jj < (int)data[i][j][ii].size(); ++ jj) data[i][j][ii][jj] = cmp(data[i - 1][j][ii][jj], data[i - 1][j][ii + p][jj]) ? data[i - 1][j][ii][jj] : data[i - 1][j][ii + p][jj];",
+            "\t\t\t}",
+            "\t\t}",
+            "\t}",
+            "\t// O(1)",
+            "\tT query(int xl, int xr, int yl, int yr) const{",
+            "\t\tassert(0 <= xl && xl <= xr && xr <= n);",
+            "\t\tassert(0 <= yl && yl <= yr && yr <= m);",
+            "\t\tif(xl == xr || yl == yr) return T_id;",
+            "\t\tint xd = __lg(xr - xl), yd = __lg(yr - yl);",
+            "\t\treturn min({data[xd][yd][xl][yl], data[xd][yd][xl][yr - (1 << yd)], data[xd][yd][xr - (1 << xd)][yl], data[xd][yd][xr - (1 << xd)][yr - (1 << yd)]}, cmp);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

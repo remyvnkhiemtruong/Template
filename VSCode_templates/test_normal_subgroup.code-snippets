@@ -1,0 +1,26 @@
+{
+    "tranxuanbach": {
+        "prefix": "test_normal_subgroup",
+        "body": [
+            "// Requires test_closedness",
+            "bool test_normal_subgroup(int n, auto op, const vector<int> &s){",
+            "\tif(s.empty() || !test_closedness(n, op, s)) return false;",
+            "\tvector<int> in_s(n), inv(n, -1);",
+            "\tint id = -1;",
+            "\tfor(auto x: s){",
+            "\t\tassert(0 <= x && x < n);",
+            "\t\tin_s[x] = true;",
+            "\t\tif(op(x, x) == x) id = x;",
+            "\t}",
+            "\tassert(~id);",
+            "\tfor(auto x = 0; x < n; ++ x) if(!~inv[x]) for(auto y = x; y < n; ++ y) if(op(x, y) == id) inv[x] = y, inv[y] = x;",
+            "\tfor(auto x = 0; x < n; ++ x) if(!in_s[x]) for(auto y: s) if(!in_s[op(op(x, y), inv[x])]) return false;",
+            "\treturn true;",
+            "}",
+            "bool test_normal_subgroup(const vector<vector<int>> &g, const vector<int> &s){",
+            "\treturn test_normal_subgroup((int)g.size(), [&](int x, int y){ return g[x][y]; }, s);",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

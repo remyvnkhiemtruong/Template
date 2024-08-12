@@ -1,0 +1,16 @@
+{
+    "tranxuanbach": {
+        "prefix": "divisor_count_function_prefix_sum",
+        "body": [
+            "template<class T, class U>",
+            "T divisor_count_function_prefix_sum(U n){",
+            "\tT res = 0;",
+            "\tint th = sqrt(n);",
+            "\tfor(auto x = 1; x <= th; ++ x) res += n / x;",
+            "\tfor(auto y = 1; th < n / y; ++ y) res += n / y - th;",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

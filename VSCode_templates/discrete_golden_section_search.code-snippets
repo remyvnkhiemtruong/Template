@@ -1,0 +1,38 @@
+{
+    "tranxuanbach": {
+        "prefix": "discrete_golden_section_search",
+        "body": [
+            "// Assumes there exists p, q in [low, high) such that",
+            "// f(i) > f(i+1) if i<p,",
+            "// f(i) = f(i+1) if p<=i<q",
+            "// f(i) < f(i+1) if q<=i",
+            "// Returns a point in [p,q]",
+            "// O(log (high - low))",
+            "// Minimizes the # of function calls",
+            "template<class T, class Compare = less<>>",
+            "T discrete_golden_section_search(T low, T high, auto f, Compare cmp = less<>()){",
+            "\tassert(low < high);",
+            "\tif(high - low >= 10){",
+            "\t\tdouble phi = (sqrt(5) - 1) / 2;",
+            "\t\tT mid1 = high - (high - low) * phi, mid2 = low + (high - low) * phi;",
+            "\t\tauto val1 = f(mid1), val2 = f(mid2);",
+            "\t\twhile(high - low >= 10){",
+            "\t\t\tif(cmp(val1, val2)){",
+            "\t\t\t\thigh = mid2, mid2 = mid1, val2 = val1;",
+            "\t\t\t\tmid1 = high - (high - low) * phi, val1 = f(mid1);",
+            "\t\t\t}",
+            "\t\t\telse{",
+            "\t\t\t\tlow = mid1, mid1 = mid2, val1 = val2;",
+            "\t\t\t\tmid2 = low + (high - low) * phi, val2 = f(mid2);",
+            "\t\t\t}",
+            "\t\t}",
+            "\t}",
+            "\tT res = low;",
+            "\tauto val = f(res);",
+            "\tfor(auto x = low + 1; x < high; ++ x) if(auto xval = f(x); cmp(xval, val)) res = x, val = xval;",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

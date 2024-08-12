@@ -1,0 +1,16 @@
+{
+    "tranxuanbach": {
+        "prefix": "binary_power",
+        "body": [
+            "// binary exponentiation",
+            "// O(log e)",
+            "template<class T, class U>",
+            "T binary_power(T b, U e){",
+            "\tT res = 1;",
+            "\tfor(; e; e >>= 1, b *= b) if(e & 1) res *= b;",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

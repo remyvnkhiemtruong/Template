@@ -1,0 +1,22 @@
+{
+    "tranxuanbach": {
+        "prefix": "lyndon_factorization",
+        "body": [
+            "// Duval algorithm for computing lyndon factorization",
+            "// Return the list of starting indices",
+            "// O(n)",
+            "template<class Char_Type>",
+            "vector<int> lyndon_factorization(const vector<Char_Type> &s){",
+            "\tint n = (int)s.size();",
+            "\tvector<int> res;",
+            "\tfor(auto i = 0; i < n; ){",
+            "\t\tint l = i, r = i + 1;",
+            "\t\tfor(; r < n && s[l] <= s[r]; ++ r) s[l] < s[r] ? l = i : ++ l;",
+            "\t\tfor(; i <= l; i += r - l) res.push_back(i);",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

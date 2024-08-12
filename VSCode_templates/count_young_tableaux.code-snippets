@@ -1,0 +1,25 @@
+{
+    "tranxuanbach": {
+        "prefix": "count_young_tableaux",
+        "body": [
+            "// Count # of standard young tableau with the given shape with hook length formula",
+            "// O(\\sum(lambda))",
+            "template<class T>",
+            "T count_young_tableaux(const vector<int> &lambda){",
+            "\tfor(auto i = 0; i < (int)lambda.size() - 1; ++ i){",
+            "\t\tassert(lambda[i] >= lambda[i + 1]);",
+            "\t\tassert(lambda[i + 1] >= 0);",
+            "\t}",
+            "\tT res = 1;",
+            "\tfor(auto h = (int)lambda.size(), y = 0; y < lambda[0]; ++ y){",
+            "\t\twhile(h && lambda[h - 1] <= y) -- h;",
+            "\t\tfor(auto i = 0; i < h; ++ i) res *= lambda[i] - y + h - i - 1;",
+            "\t}",
+            "\tres = 1 / res;",
+            "\tfor(auto x = accumulate(lambda.begin(), lambda.end(), 0); x >= 1; -- x) res *= x;",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

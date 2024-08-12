@@ -1,0 +1,38 @@
+{
+    "tranxuanbach": {
+        "prefix": "persistent_disjoint_set",
+        "body": [
+            "// From https://judge.yosupo.jp/submission/38019",
+            "// Requires persistent_array",
+            "struct persistent_disjoint_set{",
+            "\texplicit persistent_disjoint_set(persistent_array<int> par): p{move(par)}{ }",
+            "\tpersistent_disjoint_set(): p{}{ }",
+            "\tpersistent_disjoint_set(const persistent_disjoint_set &) = default;",
+            "\tpersistent_disjoint_set(persistent_disjoint_set &&) = default;",
+            "\tpersistent_disjoint_set &operator=(const persistent_disjoint_set &) = default;",
+            "\tpersistent_disjoint_set &operator=(persistent_disjoint_set &&) = default;",
+            "\tpersistent_disjoint_set merge(int x, int y) const{",
+            "\t\tx = root(x), y = root(y);",
+            "\t\tif(x == y) return *this;",
+            "\t\t// Ensure x is bigger than y.",
+            "\t\tint x_size = -p[x].value_or(-1), y_size = -p[y].value_or(-1);",
+            "\t\tif(x_size < y_size) swap(x, y), swap(x_size, y_size);",
+            "\t\treturn persistent_disjoint_set(p.set(x, -(x_size + y_size)).set(y, x));",
+            "\t}",
+            "\tint root(int x) const{",
+            "\t\tconst optional<int> &par = p[x];",
+            "\t\treturn !par || *par < 0 ? x : root(*par);",
+            "\t}",
+            "\tbool share(int x, int y) const{",
+            "\t\treturn root(x) == root(y);",
+            "\t}",
+            "\tint size(int x) const{",
+            "\t\treturn -(p[root(x)].value_or(-1));",
+            "\t}",
+            "private:",
+            "\tpersistent_array<int> p;",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

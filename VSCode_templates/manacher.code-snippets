@@ -1,0 +1,25 @@
+{
+    "tranxuanbach": {
+        "prefix": "manacher",
+        "body": [
+            "// p[0][i]: half length of even pal substring around i, p[1][i]: half length(rounded donw) of odd pal substring",
+            "// O(n)",
+            "template<class Char_Type>",
+            "array<vector<int>, 2> manacher(const vector<Char_Type> &s){",
+            "\tint n = (int)s.size();",
+            "\tarray<vector<int>, 2> p = {vector<int>(n + 1), vector<int>(n)};",
+            "\tfor(auto z = 0; z < 2; ++ z){",
+            "\t\tfor(auto i = 0, l = 0, r = 0; i < n; ++ i){",
+            "\t\t\tint t = r - i + !z;",
+            "\t\t\tif(i < r) p[z][i] = min(t, p[z][l + t]);",
+            "\t\t\tint L = i - p[z][i], R = i + p[z][i] - !z;",
+            "\t\t\twhile(L >= 1 && R + 1 < n && s[L - 1] == s[R + 1]) ++ p[z][i], -- L, ++ R;",
+            "\t\t\tif(R > r) l = L, r = R;",
+            "\t\t}",
+            "\t}",
+            "\treturn p;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

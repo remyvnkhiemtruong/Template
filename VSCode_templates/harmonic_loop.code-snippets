@@ -1,0 +1,27 @@
+{
+    "tranxuanbach": {
+        "prefix": "harmonic_loop",
+        "body": [
+            "// Iterate over all [l, r] such that 1 <= l <= r <= n and it is the maximal interval with equal q=n/x, and call f(l, r, q)",
+            "// O(sqrt(n)) f() calls",
+            "// in_order = false: sqrt(n) divisions, traverses in arbitrary order",
+            "// in_order = true: 4*sqrt(n) divisions, traverses in increasing order",
+            "template<class T>",
+            "void harmonic_loop(T n, auto f, bool in_order = false){",
+            "\tif(in_order) for(T l = 1, r, q; l <= n; l = r + 1){",
+            "\t\tq = n / l;",
+            "\t\tr = n / q;",
+            "\t\tf(l, r, q);",
+            "\t}",
+            "\telse for(T x = 1, y, py; x * x <= n; ++ x){",
+            "\t\ty = n / x;",
+            "\t\tf(x, x, y);",
+            "\t\tif(x >= 2) f(y + 1, py, x - 1);",
+            "\t\tif(x != y && x * x < n && (x + 1) * (x + 1) > n) f(x + 1, y, x);",
+            "\t\tpy = y;",
+            "\t}",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

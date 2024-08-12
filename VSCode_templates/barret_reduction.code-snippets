@@ -1,0 +1,27 @@
+{
+    "tranxuanbach": {
+        "prefix": "barret_reduction",
+        "body": [
+            "struct barrett{",
+            "\tunsigned int _m;",
+            "\tunsigned long long im;",
+            "\t// @param m `1 <= m`",
+            "\tbarrett(unsigned int m): _m(m), im((unsigned long long)(-1) / m + 1){}",
+            "\t// @return m",
+            "\tunsigned int umod() const{ return _m; }",
+            "\t// @param a `0 <= a < m`",
+            "\t// @param b `0 <= b < m`",
+            "\t// @return `a * b % m`",
+            "\tunsigned int mul(unsigned int a, unsigned int b) const{",
+            "\t\tunsigned long long z = a;",
+            "\t\tz *= b;",
+            "\t\tunsigned long long x = (unsigned long long)(((unsigned __int128)(z)*im) >> 64);",
+            "\t\tunsigned int v = (unsigned int)(z - x * _m);",
+            "\t\tif(_m <= v) v += _m;",
+            "\t\treturn v;",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

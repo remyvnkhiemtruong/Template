@@ -1,0 +1,33 @@
+{
+    "tranxuanbach": {
+        "prefix": "find_a_closest_pair",
+        "body": [
+            "// Find a closest pair of points where the metric is given by L^p norm, 1 <= p <= inf",
+            "// Returns the pair of squared distance and pair of point indices",
+            "// O(n log n)",
+            "// Requires point",
+            "template<class T, class F1 = decltype(squared_distance<T>), class F2 = decltype(::sqrt)>",
+            "pair<T, pair<int, int>> find_a_closest_pair(const vector<point<T>> &a, F1 distance_powered = squared_distance, F2 get_distance = sqrt){",
+            "\tint n = (int)a.size();",
+            "\tassert(n >= 2);",
+            "\tvector<int> order(n);",
+            "\tiota(order.begin(), order.end(), 0);",
+            "\tsort(order.begin(), order.end(), [&](int i, int j){ return a[i].y < a[j].y; });",
+            "\tfor(auto t = 1; t < n; ++ t) if(a[order[t - 1]] == a[order[t]]) return {0, {order[t - 1], order[t]}};",
+            "\tpair<T, pair<int, int>> res{numeric_limits<T>::max() / 2, {}};",
+            "\tmap<point<T>, int> s;",
+            "\tint t = 0;",
+            "\tfor(auto i: order){",
+            "\t\tT d = 1 + get_distance(res.first);",
+            "\t\twhile(a[order[t]].y <= a[i].y - d) s.erase(a[order[t]]), ++ t;",
+            "\t\tauto low = s.lower_bound({a[i].x - d, a[i].y});",
+            "\t\tauto high = s.upper_bound({a[i].x + d, a[i].y});",
+            "\t\tfor(; low != high; ++ low) res = min(res, pair<T, pair<int, int>>{distance_powered(low->first, a[i]), pair<int, int>{low->second, i}});",
+            "\t\ts.insert({a[i], i});",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

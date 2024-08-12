@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "logging_allocator",
+        "body": [
+            "template<class T>",
+            "struct logging_allocator{",
+            "\tusing value_type = T;",
+            "\tallocator<T> a;",
+            "\tlogging_allocator() = default;",
+            "\ttemplate<class U>",
+            "\tlogging_allocator(const logging_allocator<U>&) {}",
+            "\tT *allocate(size_t n){",
+            "\t\tcerr << \"Allocating \" << n << \" bytes.\" << endl;",
+            "\t\treturn a.allocate(n);",
+            "\t}",
+            "\tvoid deallocate(T *ptr, size_t n) {",
+            "\t\tcerr << \"Deallocating \" << n << \" bytes.\" << endl;",
+            "\t\treturn a.deallocate(ptr, n);",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

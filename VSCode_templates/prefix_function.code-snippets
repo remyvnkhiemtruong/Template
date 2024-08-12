@@ -1,0 +1,24 @@
+{
+    "tranxuanbach": {
+        "prefix": "prefix_function",
+        "body": [
+            "// p[i]: largest proper suffix(prefix if Reverse) ending(starting if Reverse) at i",
+            "// that is also a prefix(suffix if Reverse)",
+            "// O(n)",
+            "template<class Char_Type, bool Reverse = false>",
+            "vector<int> prefix_function(vector<Char_Type> s){",
+            "\tif(Reverse) reverse(s.begin(), s.end());",
+            "\tint n = (int)s.size();",
+            "\tvector<int> pi(n);",
+            "\tfor(auto i = 1; i < n; ++ i){",
+            "\t\tint len = pi[i - 1];",
+            "\t\twhile(len && s[i] != s[len]) len = pi[len - 1];",
+            "\t\tif(s[i] == s[len]) pi[i] = len + 1;",
+            "\t}",
+            "\tif(Reverse) reverse(pi.begin(), pi.end());",
+            "\treturn pi;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

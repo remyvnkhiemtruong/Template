@@ -1,0 +1,35 @@
+{
+    "tranxuanbach": {
+        "prefix": "linear_equations_Z2",
+        "body": [
+            "template<size_t B>",
+            "optional<bitset<B>> linear_equations_Z2(vector<bitset<B>> A, vector<int> b, int m){",
+            "\tint n = (int)size(A), rank = 0;",
+            "\tassert((int)size(b) == n);",
+            "\tvector<int> pivot(n);",
+            "\tfor(auto id = 0; id < n; ++ id){",
+            "\t\tauto &u = A[id];",
+            "\t\tfor(auto i = 0; i < rank; ++ i) if(u[pivot[i]]) u ^= A[i], b[id] ^= b[i];",
+            "\t\tif(auto p = u._Find_first(); p < B){",
+            "\t\t\tA[rank] = u;",
+            "\t\t\tb[rank] = b[id];",
+            "\t\t\tpivot[rank] = p;",
+            "\t\t\tauto pos = lower_bound(begin(pivot), begin(pivot) + rank, p) - begin(pivot);",
+            "\t\t\trotate(begin(A) + pos, begin(A) + rank, begin(A) + rank + 1);",
+            "\t\t\trotate(begin(b) + pos, begin(b) + rank, begin(b) + rank + 1);",
+            "\t\t\trotate(begin(pivot) + pos, begin(pivot) + rank, begin(pivot) + rank + 1);",
+            "\t\t\t++ rank;",
+            "\t\t}",
+            "\t\telse if(b[id]) return {};",
+            "\t}",
+            "\tbitset<B> res;",
+            "\tfor(auto i = rank - 1; i >= 0; -- i) if(b[i]){",
+            "\t\tres.set(pivot[i]);",
+            "\t\tfor(auto j = 0; j < i; ++ j) if(A[j][pivot[i]]) b[j] ^= 1;",
+            "\t}",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

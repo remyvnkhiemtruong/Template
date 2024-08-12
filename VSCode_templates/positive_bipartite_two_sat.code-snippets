@@ -1,0 +1,40 @@
+{
+    "tranxuanbach": {
+        "prefix": "positive_bipartite_two_sat",
+        "body": [
+            "// Requries flow_network and dinic_maximum_flow",
+            "template<class T>",
+            "struct positive_bipartite_two_sat{",
+            "\tint n, m, source, sink;",
+            "\tflow_network<T> F;",
+            "\tdinic_maximum_flow<T> D;",
+            "\tpositive_bipartite_two_sat(int n, int m, vector<T> wl = {}, vector<T> wr = {}): n(n), m(m), source(n + m), sink(source + 1), F(n + m + 2), D(F){",
+            "\t\tif(wl.empty()) wl = vector<T>(n, 1);",
+            "\t\tif(wr.empty()) wr = vector<T>(m, 1);",
+            "\t\tassert(wl.size() == n && wr.size() == m);",
+            "\t\tassert(!n || *min_element(wl.begin(), wl.end()) >= 0);",
+            "\t\tassert(!m || *min_element(wr.begin(), wr.end()) >= 0);",
+            "\t\tfor(auto u = 0; u < n; ++ u) F.orient(source, u, wl[u]);",
+            "\t\tfor(auto v = 0; v < m; ++ v) F.orient(n + v, sink, wr[v]);",
+            "\t}",
+            "\tvoid either(int u, int v){",
+            "\t\tassert(0 <= u && u < n);",
+            "\t\tassert(0 <= v && v < m);",
+            "\t\tF.orient(u, n + v, numeric_limits<T>::max());",
+            "\t}",
+            "\t// sum of weights of the selected variables,",
+            "\t// the set of variables set to true on the left, and",
+            "\t// the set of variables set to true on the right.",
+            "\t// O((n+m)^2 * C) where C is the # of clauses.",
+            "\ttuple<T, vector<int>, vector<int>> minimize(){",
+            "\t\tT weight = D.maximum_flow(source, sink);",
+            "\t\tvector<int> left, right;",
+            "\t\tfor(auto u = 0; u < n; ++ u) if(~D.level[u]) left.push_back(u);",
+            "\t\tfor(auto v = 0; v < m; ++ v) if(!~D.level[n + v]) right.push_back(v);",
+            "\t\treturn {weight, left, right};",
+            "\t}",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

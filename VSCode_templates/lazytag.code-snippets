@@ -1,0 +1,28 @@
+{
+    "tranxuanbach": {
+        "prefix": "lazytag",
+        "body": [
+            "struct Q{ // Monoid (Query type) / Default constructor yields the identity",
+            "\tlong long val = 0;",
+            "\tint len = 0;",
+            "\tQ operator+(const Q &x) const{",
+            "\t\treturn {val + x.val, len + x.len};",
+            "\t} // Monoid operator, always merges adjacent intervals",
+            "};",
+            "struct L{ // Semigroup (Lazy type) / call L(l, r) for initial lazy type for interval [l, r)",
+            "\tlong long val;",
+            "\tL(){",
+            "\t}",
+            "\tL(int l, int r): val(0){",
+            "\t}",
+            "\tL operator+(const L &x) const{",
+            "\t\treturn {val + x.val};",
+            "\t} // Monoid operator, always applies superset to subset",
+            "\tQ operator+(const Q &x) const{",
+            "\t\treturn {x.val + val * x.len, x.len};",
+            "\t} // Semigroup action of L on Q, always applies superset to subset",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

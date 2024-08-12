@@ -1,0 +1,11 @@
+{
+    "tranxuanbach": {
+        "prefix": "ear_decomposition",
+        "body": [
+            "struct ear_decomposition{",
+            "\t// TODO: finish this",
+            "};"
+        ],
+        "description": "tranxuanbach"
+    }
+}

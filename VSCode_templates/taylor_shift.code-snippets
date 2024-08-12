@@ -1,0 +1,32 @@
+{
+    "tranxuanbach": {
+        "prefix": "taylor_shift",
+        "body": [
+            "// Returns p(X-d)",
+            "// O(n * log(n))",
+            "// Requires modular and number_theoric_transform",
+            "template<class T, class FFT = ntt>",
+            "vector<T> taylor_shift(const vector<T> &p, T d){",
+            "\tif((int)p.size() <= 1) return p;",
+            "\tint n = (int)p.size();",
+            "\tvector<T> fact(n, 1), invfact(n, 1);",
+            "\tfor(auto i = 2; i < n; ++ i) fact[i] = fact[i - 1] * i;",
+            "\tinvfact[n - 1] = 1 / fact[n - 1];",
+            "\tfor(auto i = n - 2; i >= 2; -- i) invfact[i] = invfact[i + 1] * (i + 1);",
+            "\tvector<T> f = p, g(n);",
+            "\tT pow = 1;",
+            "\tfor(auto i = 0; i < n; ++ i){",
+            "\t\tf[i] *= fact[i];",
+            "\t\tg[i] = pow * invfact[i];",
+            "\t\tpow *= -d;",
+            "\t}",
+            "\treverse(g.begin(), g.end());",
+            "\tf = FFT::convolute(f, g);",
+            "\tf.erase(f.begin(), f.begin() + n - 1);",
+            "\tfor(auto i = 0; i < n; ++ i) f[i] *= invfact[i];",
+            "\treturn f;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "tranxuanbach": {
+        "prefix": "rectilinear_minimum_spanning_tree",
+        "body": [
+            "// Given a set of points, consider the weighted complete graph where weight of p and q are their rectilinear distance",
+            "// Returns the edges of MST of form (weight, u, v)",
+            "// Requires point and disjoint_set",
+            "template<class T>",
+            "vector<tuple<T, int, int>> rectilinear_minimum_spanning_tree(vector<point<T>> a){",
+            "\tint n = (int)a.size();",
+            "\tvector<int> ind(n);",
+            "\tiota(ind.begin(), ind.end(), 0);",
+            "\tvector<tuple<T, int, int>> edge;",
+            "\tfor(auto k = 0; k < 4; ++ k){",
+            "\t\tsort(ind.begin(), ind.end(), [&](int i, int j) { return a[i].x - a[j].x < a[j].y - a[i].y; });",
+            "\t\tmap<T, int> sweep;",
+            "\t\tfor(auto i: ind){",
+            "\t\t\tfor(auto it = sweep.lower_bound(-a[i].y); it != sweep.end(); sweep.erase(it ++)){",
+            "\t\t\t\tint j = it->second;",
+            "\t\t\t\tpoint<T> d = a[i] - a[j];",
+            "\t\t\t\tif(d.y > d.x) break;",
+            "\t\t\t\tedge.push_back({d.x + d.y, i, j});",
+            "\t\t\t}",
+            "\t\t\tsweep.insert({-a[i].y, i});",
+            "\t\t}",
+            "\t\tfor(auto &p: a) if(k & 1) p.x = -p.x; else swap(p.x, p.y);",
+            "\t}",
+            "\tsort(edge.begin(), edge.end());",
+            "\tdisjoint_set dsu(n);",
+            "\tvector<tuple<T, int, int>> res;",
+            "\tfor(auto [x, i, j]: edge) if(dsu.merge(i, j)) res.push_back({x, i, j});",
+            "\treturn res;",
+            "}"
+        ],
+        "description": "tranxuanbach"
+    }
+}
